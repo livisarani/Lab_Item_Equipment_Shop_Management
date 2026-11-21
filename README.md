@@ -1,1 +1,1 @@
-# -Lab_Item_-_Equipment_Shop_Management
+# Lab_Item_Equipment_Shop_Management
