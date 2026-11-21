@@ -1,0 +1,773 @@
+import {
+  Item,
+  User,
+  Order,
+  AuditLog,
+  Conversation,
+  Notification,
+  SystemConfig
+} from '../context/AppContext';
+
+export const mockSystemConfig: SystemConfig = {
+  siteName: 'LISM — Lab Item & Equipment Shop Management',
+  companyEmail: 'operations@lism-scientific.com',
+  companyPhone: '+1 (800) 555-LABS',
+  companyAddress: '450 Innovation Parkway, Suite 200, Science City, SC 12345',
+  lowStockThreshold: 10,
+  emailNotifications: true,
+  smsNotifications: true,
+  autoBackup: true,
+  maintenanceMode: false,
+  requireHazmatApproval: true,
+  maxOrderAmount: 25000,
+  taxRate: 8.5,
+  standardShippingFee: 25.0,
+  currency: 'USD'
+};
+
+export const mockItems: Item[] = [
+  {
+    id: '1',
+    sku: 'CHEM-ACID-001',
+    name: 'Sulfuric Acid (H2SO4) 98% ACS Grade',
+    type: 'chemical',
+    category: 'Acids',
+    price: 45.99,
+    stock: 15,
+    unit: 'liter',
+    description: 'High purity 98% ACS reagent grade sulfuric acid for analytical titration, sample digestion, and chemical synthesis.',
+    expiryDate: '2027-12-31',
+    lowStockThreshold: 20,
+    manufacturer: 'SigmaChem Diagnostics',
+    batchNumber: 'LOT-SA-2026-089',
+    storageLocation: 'Zone A - Acid Cabinet 2',
+    storageTemp: '15°C - 25°C',
+    casNumber: '7664-93-9',
+    hazardLevel: 'Corrosive',
+    purityGrade: '98.0% ACS Reagent',
+    image: 'https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '2',
+    sku: 'EQP-OPT-002',
+    name: 'Microscope - Advanced Trinocular 1000x LED',
+    type: 'equipment',
+    category: 'Optical Equipment',
+    price: 1299.99,
+    stock: 5,
+    unit: 'piece',
+    description: 'High precision infinity-corrected trinocular microscope with 1000x oil-immersion magnification, Kohler illumination, and C-mount camera port.',
+    lowStockThreshold: 3,
+    manufacturer: 'ZeissTech Optics',
+    batchNumber: 'SN-ZT-99412',
+    storageLocation: 'Zone C - Precision Rack 1',
+    storageTemp: 'Room Temperature (Dry)',
+    hazardLevel: 'None',
+    calibrationDate: '2026-09-15',
+    warrantyMonths: 36,
+    modelNumber: 'ZT-1000-PRO',
+    image: 'https://images.unsplash.com/photo-1516546453174-5e1098a4b4af?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '3',
+    sku: 'CHEM-BASE-003',
+    name: 'Sodium Hydroxide Pellets (NaOH) Anhydrous',
+    type: 'chemical',
+    category: 'Bases',
+    price: 32.50,
+    stock: 25,
+    unit: 'kg',
+    description: 'Pure sodium hydroxide reagent pellets for standard base titration, buffer preparation, and pH control.',
+    expiryDate: '2026-05-15',
+    lowStockThreshold: 10,
+    manufacturer: 'MerckLab Solutions',
+    batchNumber: 'LOT-NH-2025-114',
+    storageLocation: 'Zone A - Alkaline Shelf 4',
+    storageTemp: '20°C Tightly Sealed',
+    casNumber: '1310-73-2',
+    hazardLevel: 'Corrosive',
+    purityGrade: '99.0% BioXtra',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '4',
+    sku: 'EQP-MEA-004',
+    name: 'Digital Analytical Micro-Balance Scale',
+    type: 'equipment',
+    category: 'Measurement',
+    price: 349.99,
+    stock: 8,
+    unit: 'piece',
+    description: 'Precision digital analytical scale with 0.0001g readability, glass draft shield, and automatic internal calibration.',
+    lowStockThreshold: 3,
+    manufacturer: 'MettlerCore Instruments',
+    batchNumber: 'SN-MC-44210',
+    storageLocation: 'Zone C - Metrology Bay 3',
+    storageTemp: '18°C - 22°C',
+    hazardLevel: 'None',
+    calibrationDate: '2026-10-01',
+    warrantyMonths: 24,
+    modelNumber: 'MC-220A',
+    image: 'https://images.unsplash.com/photo-1517697471339-4aa32003c11a?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '5',
+    sku: 'CHEM-SOL-005',
+    name: 'Absolute Ethanol 99.8% (Molecular Grade)',
+    type: 'chemical',
+    category: 'Solvents',
+    price: 28.75,
+    stock: 40,
+    unit: 'liter',
+    description: 'Pure anhydrous ethanol for molecular biology, nucleic acid precipitation, histology, and sterilization.',
+    expiryDate: '2028-05-20',
+    lowStockThreshold: 15,
+    manufacturer: 'ThermoPure Chemicals',
+    batchNumber: 'LOT-ET-2026-302',
+    storageLocation: 'Zone B - Flammables Vault 1',
+    storageTemp: '4°C - 20°C',
+    casNumber: '64-17-5',
+    hazardLevel: 'Flammable',
+    purityGrade: '99.8% Molecular Biology',
+    image: 'https://images.unsplash.com/photo-1616676292839-5aca21100e45?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '6',
+    sku: 'EQP-PRC-006',
+    name: 'Laboratory High-Speed Refrigerated Centrifuge',
+    type: 'equipment',
+    category: 'Processing',
+    price: 2499.99,
+    stock: 2,
+    unit: 'piece',
+    description: 'High-speed 15,000 RPM refrigerated benchtop centrifuge with brushless motor and multi-tube rotor adaptors.',
+    lowStockThreshold: 2,
+    manufacturer: 'EppendorfPro',
+    batchNumber: 'SN-EP-88120',
+    storageLocation: 'Zone D - Heavy Equipment Bay 2',
+    storageTemp: 'Room Temperature',
+    hazardLevel: 'Low',
+    calibrationDate: '2026-11-01',
+    warrantyMonths: 36,
+    modelNumber: 'CF-5810R',
+    image: 'https://images.unsplash.com/photo-1581092921461-7d55b9bed0b5?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '7',
+    sku: 'CHEM-ACID-007',
+    name: 'Hydrochloric Acid (HCl) 37% Fuming TraceMetal',
+    type: 'chemical',
+    category: 'Acids',
+    price: 54.00,
+    stock: 9,
+    unit: 'liter',
+    description: 'Sub-boiled distilled fuming hydrochloric acid with part-per-trillion trace metal purity for ICP-MS analysis.',
+    expiryDate: '2027-08-15',
+    lowStockThreshold: 12,
+    manufacturer: 'SigmaChem Diagnostics',
+    batchNumber: 'LOT-HCL-2026-412',
+    storageLocation: 'Zone A - Acid Cabinet 1',
+    storageTemp: '15°C - 20°C',
+    casNumber: '7647-01-0',
+    hazardLevel: 'Corrosive',
+    purityGrade: '37% TraceMetal Grade',
+    image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '8',
+    sku: 'EQP-THE-008',
+    name: 'PCR Thermal Cycler 96-Well Gradient System',
+    type: 'equipment',
+    category: 'Thermal & PCR',
+    price: 3850.00,
+    stock: 4,
+    unit: 'piece',
+    description: 'Peltier-driven 96-well gradient thermal cycler with 7-inch capacitive touchscreen for rapid DNA amplification.',
+    lowStockThreshold: 2,
+    manufacturer: 'BioRad Systems',
+    batchNumber: 'SN-BR-77109',
+    storageLocation: 'Zone C - Genomics Rack 2',
+    storageTemp: '15°C - 30°C',
+    hazardLevel: 'None',
+    calibrationDate: '2026-10-20',
+    warrantyMonths: 24,
+    modelNumber: 'T100-GRAD',
+    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '9',
+    sku: 'CHEM-SOL-009',
+    name: 'Acetonitrile (CH3CN) HPLC Gradient Grade',
+    type: 'chemical',
+    category: 'Solvents',
+    price: 68.50,
+    stock: 18,
+    unit: 'liter',
+    description: 'Ultra-low UV absorbance and micro-filtered 0.2µm acetonitrile mobile phase solvent for UHPLC/LC-MS.',
+    expiryDate: '2027-11-30',
+    lowStockThreshold: 10,
+    manufacturer: 'ThermoPure Chemicals',
+    batchNumber: 'LOT-ACN-2026-509',
+    storageLocation: 'Zone B - Flammables Vault 2',
+    storageTemp: '15°C - 25°C',
+    casNumber: '75-05-8',
+    hazardLevel: 'Flammable',
+    purityGrade: '99.9% UHPLC-MS',
+    image: 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '10',
+    sku: 'EQP-OPT-010',
+    name: 'UV-Vis Double-Beam Spectrophotometer',
+    type: 'equipment',
+    category: 'Optical Equipment',
+    price: 4200.00,
+    stock: 3,
+    unit: 'piece',
+    description: '190-1100nm wavelength scanning UV-Vis spectrophotometer with 8-cell automatic carousel and quartz cuvettes.',
+    lowStockThreshold: 2,
+    manufacturer: 'ShimadzuCore',
+    batchNumber: 'SN-SC-30912',
+    storageLocation: 'Zone C - Spectroscopy Shelf 1',
+    storageTemp: 'Room Temperature',
+    hazardLevel: 'None',
+    calibrationDate: '2026-11-10',
+    warrantyMonths: 36,
+    modelNumber: 'UV-1900i',
+    image: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '11',
+    sku: 'CHEM-REA-011',
+    name: 'Hydrogen Peroxide 30% (Stabilized ACS)',
+    type: 'chemical',
+    category: 'Oxidizers',
+    price: 39.25,
+    stock: 6,
+    unit: 'liter',
+    description: 'Stabilized 30% aqueous hydrogen peroxide oxidizer for Piranha wafer cleaning and enzymatic assays.',
+    expiryDate: '2026-03-01',
+    lowStockThreshold: 10,
+    manufacturer: 'MerckLab Solutions',
+    batchNumber: 'LOT-HP-2025-019',
+    storageLocation: 'Zone A - Cold Oxidizer Fridge 1',
+    storageTemp: '2°C - 8°C (Vented)',
+    casNumber: '7722-84-1',
+    hazardLevel: 'Oxidizer',
+    purityGrade: '30.0% Stabilized ACS',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400&h=300'
+  },
+  {
+    id: '12',
+    sku: 'EQP-GLS-012',
+    name: 'Borosilicate 3.3 Volumetric Glassware Kit (24-Pc)',
+    type: 'equipment',
+    category: 'Glassware & Handling',
+    price: 215.00,
+    stock: 14,
+    unit: 'set',
+    description: 'Class-A calibrated borosilicate 3.3 laboratory glassware kit including Erlenmeyer flasks, volumetric pipettes, and graduated cylinders.',
+    lowStockThreshold: 5,
+    manufacturer: 'PyrexSci Works',
+    batchNumber: 'LOT-GLS-2026-88',
+    storageLocation: 'Zone E - Glassware Aisle 3',
+    storageTemp: 'Ambient',
+    hazardLevel: 'None',
+    calibrationDate: '2026-08-01',
+    warrantyMonths: 12,
+    modelNumber: 'PYR-24A-KIT',
+    image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=400&h=300'
+  }
+];
+
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    name: 'Dr. Evelyn Vance',
+    email: 'admin@lism.com',
+    role: 'admin',
+    phone: '555-123-4567',
+    department: 'System Administration & Hazmat Compliance',
+    organization: 'LISM Headquarters',
+    clearanceLevel: 'Level 5 (Root Admin)',
+    isActive: true,
+    createdAt: '2025-01-01T00:00:00Z',
+    lastLogin: '2026-11-21T08:30:00Z'
+  },
+  {
+    id: '2',
+    name: 'Marcus Sterling',
+    email: 'manager@lism.com',
+    role: 'manager',
+    phone: '555-234-5678',
+    department: 'Commercial Operations & Order Desk',
+    organization: 'LISM Headquarters',
+    clearanceLevel: 'Level 4 (Operations Manager)',
+    isActive: true,
+    createdAt: '2025-01-02T00:00:00Z',
+    lastLogin: '2026-11-21T09:15:00Z'
+  },
+  {
+    id: '3',
+    name: 'Dr. Aris Thorne',
+    email: 'customer@example.com',
+    role: 'customer',
+    phone: '555-345-6789',
+    address: '123 Lab St, BioResearch Wing, Science City, SC 12345',
+    department: 'Molecular Biochemistry Lab',
+    organization: 'Apex BioLabs Institute',
+    clearanceLevel: 'BSL-2 Verified Buyer',
+    isActive: true,
+    createdAt: '2025-01-03T00:00:00Z',
+    lastLogin: '2026-11-21T10:05:00Z'
+  },
+  {
+    id: '4',
+    name: 'Helena Chen',
+    email: 'inventory@lism.com',
+    role: 'inventory',
+    phone: '555-456-7890',
+    department: 'Chemical Vault & Metrology Storage',
+    organization: 'LISM Central Warehouse',
+    clearanceLevel: 'Level 3 (Hazmat Inventory)',
+    isActive: true,
+    createdAt: '2025-01-04T00:00:00Z',
+    lastLogin: '2026-11-21T07:45:00Z'
+  },
+  {
+    id: '5',
+    name: 'Carlos Mendez',
+    email: 'delivery@lism.com',
+    role: 'delivery',
+    phone: '555-567-8901',
+    department: 'Cold-Chain & ADR Hazmat Fleet',
+    organization: 'LISM Logistics Division',
+    clearanceLevel: 'ADR Hazmat Certified Driver',
+    isActive: true,
+    createdAt: '2025-01-05T00:00:00Z',
+    lastLogin: '2026-11-21T08:00:00Z'
+  },
+  {
+    id: '6',
+    name: 'Prof. Nadia Al-Mansoor',
+    email: 'nadia.mansoor@uni-chem.edu',
+    role: 'customer',
+    phone: '555-678-9012',
+    address: '890 University Blvd, Chemistry Building Rm 402, Science City, SC 12350',
+    department: 'Organic Synthesis Department',
+    organization: 'State University of Science',
+    clearanceLevel: 'BSL-3 Academic Buyer',
+    isActive: true,
+    createdAt: '2025-03-12T00:00:00Z',
+    lastLogin: '2026-11-20T16:40:00Z'
+  },
+  {
+    id: '7',
+    name: 'David Ross',
+    email: 'd.ross@lism.com',
+    role: 'delivery',
+    phone: '555-789-0123',
+    department: 'Regional Express Fleet',
+    organization: 'LISM Logistics Division',
+    clearanceLevel: 'Standard Fleet Driver',
+    isActive: false,
+    createdAt: '2025-06-18T00:00:00Z',
+    lastLogin: '2026-10-15T11:20:00Z'
+  }
+];
+
+export const mockOrders: Order[] = [
+  {
+    id: 'ORD-2026-001',
+    invoiceNumber: 'INV-2026-101',
+    customerId: '3',
+    customerName: 'Dr. Aris Thorne',
+    customerEmail: 'customer@example.com',
+    customerPhone: '555-345-6789',
+    items: [
+      {
+        itemId: '1',
+        name: 'Sulfuric Acid (H2SO4) 98% ACS Grade',
+        quantity: 2,
+        price: 45.99,
+        unit: 'liter'
+      },
+      {
+        itemId: '3',
+        name: 'Sodium Hydroxide Pellets (NaOH) Anhydrous',
+        quantity: 1,
+        price: 32.50,
+        unit: 'kg'
+      }
+    ],
+    subtotal: 124.48,
+    taxAmount: 10.58,
+    shippingFee: 25.00,
+    totalAmount: 160.06,
+    status: 'pending',
+    paymentMethod: 'online',
+    paymentStatus: 'paid',
+    fulfillmentOption: 'delivery',
+    deliveryAddress: '123 Lab St, BioResearch Wing, Science City, SC 12345',
+    assignedDriver: 'Carlos Mendez',
+    trackingNumber: 'TRK-LISM-88210',
+    notes: 'Requires corrosive hazmat containment bin upon delivery to Loading Dock B.',
+    createdAt: '2026-11-19T14:30:00Z',
+    updatedAt: '2026-11-19T14:30:00Z'
+  },
+  {
+    id: 'ORD-2026-002',
+    invoiceNumber: 'INV-2026-102',
+    customerId: '3',
+    customerName: 'Dr. Aris Thorne',
+    customerEmail: 'customer@example.com',
+    customerPhone: '555-345-6789',
+    items: [
+      {
+        itemId: '2',
+        name: 'Microscope - Advanced Trinocular 1000x LED',
+        quantity: 1,
+        price: 1299.99,
+        unit: 'piece'
+      },
+      {
+        itemId: '12',
+        name: 'Borosilicate 3.3 Volumetric Glassware Kit (24-Pc)',
+        quantity: 2,
+        price: 215.00,
+        unit: 'set'
+      }
+    ],
+    subtotal: 1729.99,
+    taxAmount: 147.05,
+    shippingFee: 25.00,
+    totalAmount: 1902.04,
+    status: 'in-transit',
+    paymentMethod: 'cod',
+    paymentStatus: 'pending',
+    fulfillmentOption: 'delivery',
+    deliveryAddress: '123 Lab St, BioResearch Wing, Science City, SC 12345',
+    assignedDriver: 'Carlos Mendez',
+    trackingNumber: 'TRK-LISM-88195',
+    notes: 'Fragile optical instrument — handle upright with shock sensor.',
+    createdAt: '2026-11-18T10:15:00Z',
+    updatedAt: '2026-11-20T09:45:00Z'
+  },
+  {
+    id: 'ORD-2026-003',
+    invoiceNumber: 'INV-2026-103',
+    customerId: '3',
+    customerName: 'Dr. Aris Thorne',
+    customerEmail: 'customer@example.com',
+    customerPhone: '555-345-6789',
+    items: [
+      {
+        itemId: '5',
+        name: 'Absolute Ethanol 99.8% (Molecular Grade)',
+        quantity: 3,
+        price: 28.75,
+        unit: 'liter'
+      }
+    ],
+    subtotal: 86.25,
+    taxAmount: 7.33,
+    shippingFee: 0,
+    totalAmount: 93.58,
+    status: 'completed',
+    paymentMethod: 'online',
+    paymentStatus: 'paid',
+    fulfillmentOption: 'pickup',
+    deliveryAddress: 'LISM Main Lab Facility Pickup Counter',
+    notes: 'Picked up at Warehouse Gate 1 with signed MSDS sheet.',
+    createdAt: '2026-11-12T16:20:00Z',
+    updatedAt: '2026-11-13T10:30:00Z',
+    deliveredAt: '2026-11-13T10:30:00Z'
+  },
+  {
+    id: 'ORD-2026-004',
+    invoiceNumber: 'INV-2026-104',
+    customerId: '6',
+    customerName: 'Prof. Nadia Al-Mansoor',
+    customerEmail: 'nadia.mansoor@uni-chem.edu',
+    customerPhone: '555-678-9012',
+    items: [
+      {
+        itemId: '8',
+        name: 'PCR Thermal Cycler 96-Well Gradient System',
+        quantity: 1,
+        price: 3850.00,
+        unit: 'piece'
+      },
+      {
+        itemId: '9',
+        name: 'Acetonitrile (CH3CN) HPLC Gradient Grade',
+        quantity: 4,
+        price: 68.50,
+        unit: 'liter'
+      }
+    ],
+    subtotal: 4124.00,
+    taxAmount: 350.54,
+    shippingFee: 25.00,
+    totalAmount: 4499.54,
+    status: 'processing',
+    paymentMethod: 'online',
+    paymentStatus: 'paid',
+    fulfillmentOption: 'delivery',
+    deliveryAddress: '890 University Blvd, Chemistry Building Rm 402, Science City, SC 12350',
+    assignedDriver: 'Carlos Mendez',
+    trackingNumber: 'TRK-LISM-88304',
+    notes: 'University grant purchase order #UNI-9921. Deliver before 4:00 PM.',
+    createdAt: '2026-11-20T11:10:00Z',
+    updatedAt: '2026-11-21T08:20:00Z'
+  },
+  {
+    id: 'ORD-2026-005',
+    invoiceNumber: 'INV-2026-105',
+    customerId: '6',
+    customerName: 'Prof. Nadia Al-Mansoor',
+    customerEmail: 'nadia.mansoor@uni-chem.edu',
+    customerPhone: '555-678-9012',
+    items: [
+      {
+        itemId: '4',
+        name: 'Digital Analytical Micro-Balance Scale',
+        quantity: 2,
+        price: 349.99,
+        unit: 'piece'
+      }
+    ],
+    subtotal: 699.98,
+    taxAmount: 59.50,
+    shippingFee: 25.00,
+    totalAmount: 784.48,
+    status: 'delivered',
+    paymentMethod: 'online',
+    paymentStatus: 'paid',
+    fulfillmentOption: 'delivery',
+    deliveryAddress: '890 University Blvd, Chemistry Building Rm 402, Science City, SC 12350',
+    assignedDriver: 'Carlos Mendez',
+    trackingNumber: 'TRK-LISM-88011',
+    notes: 'Calibration certificates included in box.',
+    createdAt: '2026-11-10T09:00:00Z',
+    updatedAt: '2026-11-14T15:40:00Z',
+    deliveredAt: '2026-11-14T15:40:00Z'
+  }
+];
+
+export const mockNotifications: Notification[] = [
+  {
+    id: '1',
+    title: 'Low Stock Alert: Sulfuric Acid & HCl',
+    message: 'Sulfuric Acid (15L) and Hydrochloric Acid (9L) are below their minimum safety stock thresholds.',
+    type: 'warning',
+    read: false,
+    createdAt: '2026-11-21T09:00:00Z',
+    forRole: ['admin', 'inventory', 'manager']
+  },
+  {
+    id: '2',
+    title: 'Expiry Alert: Hydrogen Peroxide 30%',
+    message: 'Batch LOT-HP-2025-019 (Hydrogen Peroxide 30%) has passed its recommended stability expiry date.',
+    type: 'error',
+    read: false,
+    createdAt: '2026-11-21T08:15:00Z',
+    forRole: ['admin', 'inventory']
+  },
+  {
+    id: '3',
+    title: 'New Order Received (#ORD-2026-001)',
+    message: 'Dr. Aris Thorne placed an order for Corrosive Acids & Bases ($160.06). Awaiting dispatch.',
+    type: 'info',
+    read: false,
+    createdAt: '2026-11-20T14:35:00Z',
+    forRole: ['manager', 'delivery', 'admin']
+  },
+  {
+    id: '4',
+    title: 'Order In-Transit (#ORD-2026-002)',
+    message: 'Your order for Trinocular Microscope 1000x LED is currently in-transit with driver Carlos Mendez.',
+    type: 'success',
+    read: false,
+    createdAt: '2026-11-20T09:50:00Z',
+    forRole: ['customer', 'delivery']
+  }
+];
+
+export const mockAuditLogs: AuditLog[] = [
+  {
+    id: '1',
+    user: 'Dr. Evelyn Vance',
+    userRole: 'admin',
+    action: 'User Clearance Approved',
+    target: 'customer@example.com',
+    details: 'Verified BSL-2 Biosafety purchasing license for Dr. Aris Thorne (Apex BioLabs).',
+    timestamp: '2026-11-21T10:30:00Z',
+    type: 'create'
+  },
+  {
+    id: '2',
+    user: 'Marcus Sterling',
+    userRole: 'manager',
+    action: 'Order Assigned to Hazmat Fleet',
+    target: 'ORD-2026-004',
+    details: 'Assigned PCR Thermal Cycler & Acetonitrile order to ADR Driver Carlos Mendez.',
+    timestamp: '2026-11-21T09:15:00Z',
+    type: 'update'
+  },
+  {
+    id: '3',
+    user: 'Helena Chen',
+    userRole: 'inventory',
+    action: 'Batch & Calibration Verified',
+    target: 'CHEM-ACID-001 (Sulfuric Acid)',
+    details: 'Logged Certificate of Analysis (CoA) for LOT-SA-2026-089 in Acid Cabinet 2.',
+    timestamp: '2026-11-20T14:20:00Z',
+    type: 'create'
+  },
+  {
+    id: '4',
+    user: 'Dr. Evelyn Vance',
+    userRole: 'admin',
+    action: 'User Account Suspended',
+    target: 'd.ross@lism.com',
+    details: 'Deactivated driver account David Ross pending annual ADR Hazmat recertification.',
+    timestamp: '2026-11-19T11:45:00Z',
+    type: 'delete'
+  },
+  {
+    id: '5',
+    user: 'Marcus Sterling',
+    userRole: 'manager',
+    action: 'Tax Invoice Generated',
+    target: 'INV-2026-104',
+    details: 'Issued institutional invoice ($4,499.54) to State University of Science.',
+    timestamp: '2026-11-18T16:30:00Z',
+    type: 'create'
+  },
+  {
+    id: '6',
+    user: 'System Scheduler',
+    userRole: 'admin',
+    action: 'Automated Database & CoA Backup',
+    target: 'LISM-Cloud-Vault-01',
+    details: 'Completed daily encrypted snapshot of inventory batches, SDS sheets, and invoices.',
+    timestamp: '2026-11-18T02:00:00Z',
+    type: 'system'
+  }
+];
+
+export const mockConversations: Conversation[] = [
+  {
+    id: '1',
+    userId: '3',
+    user: 'Dr. Aris Thorne',
+    role: 'customer',
+    organization: 'Apex BioLabs Institute',
+    subject: 'Hazmat containment & delivery timing for ORD-2026-001',
+    category: 'Delivery & Hazmat',
+    priority: 'High',
+    status: 'Open',
+    lastMessage: 'When will my Sulfuric Acid order arrive? Please ensure the secondary containment bin is included.',
+    time: '25 mins ago',
+    unread: true,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Dr. Aris Thorne',
+        senderRole: 'customer',
+        text: 'Hello, I placed order ORD-2026-001 yesterday for 2L Sulfuric Acid 98% and 1kg NaOH pellets.',
+        time: '10:30 AM',
+        isOwn: false
+      },
+      {
+        id: 'm2',
+        sender: 'Marcus Sterling (Manager)',
+        senderRole: 'manager',
+        text: 'Good morning Dr. Thorne! We have verified your BSL-2 clearance and the order is queued for packing.',
+        time: '10:32 AM',
+        isOwn: true
+      },
+      {
+        id: 'm3',
+        sender: 'Dr. Aris Thorne',
+        senderRole: 'customer',
+        text: 'When will my Sulfuric Acid order arrive? Please ensure the secondary containment bin is included.',
+        time: '10:35 AM',
+        isOwn: false
+      }
+    ]
+  },
+  {
+    id: '2',
+    userId: '4',
+    user: 'Helena Chen (Inventory)',
+    role: 'inventory',
+    organization: 'LISM Central Warehouse',
+    subject: 'Restock requisition for Sulfuric Acid & HCl TraceMetal',
+    category: 'Inventory Alert',
+    priority: 'Urgent',
+    status: 'In Progress',
+    lastMessage: 'Stock updated for Sulfuric Acid. We need purchase order approval for 50L replenishment.',
+    time: '3 hours ago',
+    unread: false,
+    messages: [
+      {
+        id: 'm4',
+        sender: 'Helena Chen (Inventory)',
+        senderRole: 'inventory',
+        text: 'Hi Marcus, both Sulfuric Acid (15L) and Hydrochloric Acid (9L) dipped below safety thresholds today.',
+        time: '08:15 AM',
+        isOwn: false
+      },
+      {
+        id: 'm5',
+        sender: 'Marcus Sterling (Manager)',
+        senderRole: 'manager',
+        text: 'Thanks Helena. Please prepare the SigmaChem supplier requisition and I will sign off right away.',
+        time: '08:22 AM',
+        isOwn: true
+      },
+      {
+        id: 'm6',
+        sender: 'Helena Chen (Inventory)',
+        senderRole: 'inventory',
+        text: 'Stock updated for Sulfuric Acid. We need purchase order approval for 50L replenishment.',
+        time: '08:40 AM',
+        isOwn: false
+      }
+    ]
+  },
+  {
+    id: '3',
+    userId: '5',
+    user: 'Carlos Mendez (Delivery)',
+    role: 'delivery',
+    organization: 'LISM Logistics Division',
+    subject: 'University Delivery Confirmation — ORD-2026-005',
+    category: 'Fleet Logistics',
+    priority: 'Normal',
+    status: 'Resolved',
+    lastMessage: 'Delivery completed successfully at Chemistry Building Rm 402. Signed by Prof. Al-Mansoor.',
+    time: '1 day ago',
+    unread: false,
+    messages: [
+      {
+        id: 'm7',
+        sender: 'Carlos Mendez (Delivery)',
+        senderRole: 'delivery',
+        text: 'Arrived at State University gate with the 2 Analytical Micro-Balances.',
+        time: 'Yesterday, 3:10 PM',
+        isOwn: false
+      },
+      {
+        id: 'm8',
+        sender: 'Carlos Mendez (Delivery)',
+        senderRole: 'delivery',
+        text: 'Delivery completed successfully at Chemistry Building Rm 402. Signed by Prof. Al-Mansoor.',
+        time: 'Yesterday, 3:40 PM',
+        isOwn: false
+      }
+    ]
+  }
+];
