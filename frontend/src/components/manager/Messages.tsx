@@ -29,68 +29,71 @@ export const Messages: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
+    <div className="space-y-8">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+          Real-Time Lab Communications
+        </span>
+        <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
           Messages & Support Tickets
         </h1>
-        <p className="text-sm text-gray-500">
-          Real-time communication with laboratory customers, inventory warehouse, and delivery staff
+        <p className="text-sm text-[#b0b0b0] mt-1">
+          Direct communication with laboratory customers, inventory warehouse, and delivery staff
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Conversation List */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="p-4 border-b border-gray-200 bg-gray-50">
+        <div className="sp-card-dark overflow-hidden">
+          <div className="p-4 border-b border-[#212121] bg-[#131313]">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search threads or tickets..."
-                className="pl-9 pr-4 py-2 w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500"
+                className="pl-10 pr-4 py-2.5 w-full bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] rounded-none text-sm focus:outline-none focus:border-[#0e97b0]"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <SearchIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              <SearchIcon className="absolute left-3.5 top-3 h-4 w-4 text-[#b0b0b0]" />
             </div>
           </div>
-          <div className="divide-y divide-gray-200 max-h-[540px] overflow-y-auto">
+          <div className="divide-y divide-[#212121] max-h-[540px] overflow-y-auto">
             {filteredConversations.map((conv) => (
               <div
                 key={conv.id}
                 onClick={() => setSelectedConversationId(conv.id)}
-                className={`p-4 cursor-pointer hover:bg-gray-50 transition-colors ${
-                  selectedConversationId === conv.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''
+                className={`p-4 cursor-pointer hover:bg-[#131313] transition-colors ${
+                  selectedConversationId === conv.id
+                    ? 'bg-[#0e4e65]/30 border-l-4 border-[#27c2d2]'
+                    : ''
                 }`}
               >
                 <div className="flex justify-between items-start mb-1">
                   <div>
-                    <h3 className="font-semibold text-sm text-gray-900">
-                      {conv.user}
-                    </h3>
-                    <p className="text-xs text-blue-600 font-medium">
+                    <h3 className="font-bold text-sm text-white">{conv.user}</h3>
+                    <p className="text-xs text-[#27c2d2] font-semibold">
                       {conv.subject}
                     </p>
                   </div>
-                  <span className="text-xs text-gray-400">{conv.time}</span>
+                  <span className="text-xs text-[#b0b0b0]">{conv.time}</span>
                 </div>
-                <p className="text-xs text-gray-600 truncate mt-1">
+                <p className="text-xs text-[#b0b0b0] truncate mt-1">
                   {conv.lastMessage}
                 </p>
-                <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center justify-between mt-2.5">
                   <span
-                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
                       conv.status === 'Resolved'
-                        ? 'bg-green-100 text-green-800'
+                        ? 'bg-[#0f9b40]/30 text-[#4dfd88]'
                         : conv.status === 'In Progress'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-amber-100 text-amber-800'
+                        ? 'bg-[#0e97b0]/30 text-[#27c2d2]'
+                        : 'bg-[#aa4266] text-white'
                     }`}
                   >
                     {conv.status}
                   </span>
                   {conv.unread && (
-                    <span className="px-2 py-0.5 bg-blue-600 text-white text-[10px] font-bold rounded-full">
+                    <span className="px-2 py-0.5 bg-[#27c2d2] text-black text-[10px] font-bold rounded-full">
                       New
                     </span>
                   )}
@@ -102,57 +105,57 @@ export const Messages: React.FC = () => {
 
         {/* Active Conversation Thread */}
         <div
-          className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col"
+          className="lg:col-span-2 sp-card-dark flex flex-col overflow-hidden"
           style={{ height: '600px' }}
         >
           {activeConversation ? (
             <>
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+              <div className="p-5 border-b border-[#212121] flex justify-between items-center bg-[#131313]">
                 <div>
-                  <h2 className="font-bold text-gray-900">
+                  <h2 className="font-bold text-white font-display">
                     {activeConversation.user}{' '}
-                    <span className="text-xs font-normal text-gray-500">
+                    <span className="text-xs font-normal text-[#b0b0b0]">
                       ({activeConversation.organization || activeConversation.role})
                     </span>
                   </h2>
-                  <p className="text-xs text-blue-700 font-medium">
+                  <p className="text-xs text-[#27c2d2] font-semibold mt-0.5">
                     Subject: {activeConversation.subject}
                   </p>
                 </div>
                 {activeConversation.status !== 'Resolved' && (
                   <button
                     onClick={() => resolveConversation(activeConversation.id)}
-                    className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg flex items-center"
+                    className="px-4 py-2 bg-[#0f9b40] hover:bg-[#27b064] text-white text-xs font-bold rounded-[20px] flex items-center transition-colors"
                   >
-                    <CheckCircleIcon className="h-3.5 w-3.5 mr-1" /> Mark Resolved
+                    <CheckCircleIcon className="h-3.5 w-3.5 mr-1.5" /> Mark Resolved
                   </button>
                 )}
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/40">
+              <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-[#000000]/60">
                 {activeConversation.messages.map((msg) => (
                   <div
                     key={msg.id}
                     className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-md px-4 py-2.5 rounded-xl shadow-sm ${
+                      className={`max-w-md px-5 py-3 rounded-[24px] shadow-md ${
                         msg.isOwn
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white border border-gray-200 text-gray-900'
+                          ? 'bg-[#0e97b0] text-white'
+                          : 'bg-[#131313] border border-[#212121] text-white'
                       }`}
                     >
                       <p
-                        className={`text-[11px] font-semibold mb-0.5 ${
-                          msg.isOwn ? 'text-blue-100' : 'text-blue-600'
+                        className={`text-[11px] font-bold mb-0.5 ${
+                          msg.isOwn ? 'text-white/90' : 'text-[#27c2d2]'
                         }`}
                       >
                         {msg.sender}
                       </p>
-                      <p className="text-sm">{msg.text}</p>
+                      <p className="text-sm leading-relaxed">{msg.text}</p>
                       <p
                         className={`text-[10px] mt-1 text-right ${
-                          msg.isOwn ? 'text-blue-200' : 'text-gray-400'
+                          msg.isOwn ? 'text-white/75' : 'text-[#b0b0b0]'
                         }`}
                       >
                         {msg.time}
@@ -162,18 +165,21 @@ export const Messages: React.FC = () => {
                 ))}
               </div>
 
-              <form onSubmit={handleSend} className="p-4 border-t border-gray-200 bg-white">
-                <div className="flex gap-2">
+              <form
+                onSubmit={handleSend}
+                className="p-4 border-t border-[#212121] bg-[#131313]"
+              >
+                <div className="flex gap-3">
                   <input
                     type="text"
                     placeholder="Type a reply to this thread..."
-                    className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] px-4 py-2.5 text-sm rounded-none focus:outline-none focus:border-[#0e97b0]"
                     value={messageText}
                     onChange={(e) => setMessageText(e.target.value)}
                   />
                   <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium"
+                    className="sp-btn-primary px-6 py-2.5 text-sm"
                   >
                     <SendIcon className="h-4 w-4 mr-1.5" /> Send
                   </button>
@@ -181,7 +187,7 @@ export const Messages: React.FC = () => {
               </form>
             </>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="flex items-center justify-center h-full text-[#b0b0b0]">
               Select a conversation thread to start messaging
             </div>
           )}

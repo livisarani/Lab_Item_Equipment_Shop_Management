@@ -1,27 +1,42 @@
 /* URL IMPORTS (SUCH AS FONT IMPORTS) SHOULD BE KEPT ABOVE TAILWIND IMPORTS - DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import './fonts.css';
+@import './tokens.css';
 /* PLEASE NOTE: THESE TAILWIND IMPORTS SHOULD NEVER BE DELETED - DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 /* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL - DO NOT DELETE THIS COMMENT */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f9fafb;
-  color: #111827;
+
+html {
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-/* Custom scrollbar for webkit browsers */
+
+body {
+  font-family: "Helveticaneueltstd Roman", "Inter", sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: "Helveticaneueltstd Bd", "Inter", sans-serif;
+}
+
+/* Custom dark theme scrollbar for webkit browsers */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #090909;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: #262626;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: #0e97b0;
 }

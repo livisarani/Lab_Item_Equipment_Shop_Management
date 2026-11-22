@@ -1,0 +1,77 @@
+/* Observed font sources from myscanstation.com-design-pack (fonts.css) */
+@font-face {
+  font-family: "Helveticaneueltstd Bd";
+  src: url("https://cdn.prod.website-files.com/6704f3ee269778bd6c8f5071/6706884ccf7db403cc89d1da_HelveticaNeueLTStd-Bd.woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helveticaneueltstd Roman";
+  src: url("https://cdn.prod.website-files.com/6704f3ee269778bd6c8f5071/67069b2f060eac260bde0152_HelveticaNeueLTStd-Roman.woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helveticaneueltstd Md";
+  src: url("https://cdn.prod.website-files.com/6704f3ee269778bd6c8f5071/6706a0cace4c8be58e9f3fb6_HelveticaNeueLTStd-Md.woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+.sp-type-headline-display {
+  font-family: "Helveticaneueltstd Bd", "Inter", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-stretch: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-optical-sizing: auto;
+  font-synthesis: weight style small-caps;
+}
+.sp-type-headline-lg {
+  font-family: "Helveticaneueltstd Bd", "Inter", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-optical-sizing: auto;
+  font-synthesis: weight style small-caps;
+}
+.sp-type-headline-md {
+  font-family: "Helveticaneueltstd Bd", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.672px;
+  font-style: normal;
+  font-stretch: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-optical-sizing: auto;
+  font-synthesis: weight style small-caps;
+}
+.sp-type-body-md {
+  font-family: "Helveticaneueltstd Roman", "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-optical-sizing: auto;
+  font-synthesis: weight style small-caps;
+}
+.sp-type-button {
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-optical-sizing: auto;
+  font-synthesis: weight style small-caps;
+}

@@ -1,0 +1,198 @@
+/* Design tokens & measured component recipes from myscanstation.com (2026-11-22) */
+:root {
+  --color-background: #000000;
+  --color-surface: #090909;
+  --color-surface-2: #131313;
+  --color-foreground: #ffffff;
+  --color-muted-foreground: #b0b0b0;
+  --color-primary: #0e97b0;
+  --color-primary-light: #27c2d2;
+  --color-primary-dark: #0e4e65;
+  --color-on-primary: #111111;
+  --color-secondary: #aa4266;
+  --color-bio-green: #0f9b40;
+  --color-border: #d1d1d1;
+  --color-border-dark: #212121;
+  --color-card-light: #d4d4d4;
+  --font-sans: "Helveticaneueltstd Roman", "Inter", sans-serif;
+  --font-display: "Helveticaneueltstd Bd", "Inter", sans-serif;
+  --font-medium: "Helveticaneueltstd Md", "Inter", sans-serif;
+  --radius-none: 0px;
+  --radius-lg: 10px;
+  --radius-xl: 20px;
+  --radius-2xl: 48px;
+  --radius-card: 32px;
+  --radius-full: 9999px;
+  --shadow-1: rgba(0, 0, 0, 0.2) 0px 10px 10px 0px;
+  --shadow-2: rgba(0, 0, 0, 0.2) 2px 2px 5px 0px;
+  --shadow-3: rgba(0, 0, 0, 0.3) 0px 4px 15px 5px;
+  --shadow-4: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+  --shadow-card: rgba(0, 0, 0, 0.2) 2px 2px 20px 15px;
+  --shadow-primary-btn: rgba(0, 0, 0, 0.4) 0px 5px 20px 8px;
+  --content-width: 1280px;
+}
+
+/* Header / Navbar Recipe */
+.sp-header-gradient {
+  background-color: #0e97b0;
+  background-image: radial-gradient(circle at 50% 100%, rgb(39, 194, 210), rgb(0, 117, 147));
+}
+
+/* Footer Gradient Recipe */
+.sp-footer-gradient {
+  background-image: linear-gradient(0deg, rgb(39, 194, 210), rgb(14, 78, 101));
+}
+
+/* Ambient Section Radial Glow Recipe */
+.sp-ambient-glow {
+  background-color: #000000;
+  background-image: radial-gradient(circle closest-side at 50% 67%, rgb(14, 78, 101) 11%, rgb(0, 0, 0) 72%);
+}
+
+/* Button, primary (lg & standard) - transitions to #ffffff bg & #000000 text on hover */
+.sp-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #0e97b0;
+  background-image: radial-gradient(circle closest-corner at 50% 0%, rgb(39, 194, 210), rgb(0, 117, 147));
+  color: #ffffff;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 20px 8px;
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.416px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+.sp-btn-primary:hover:not(:disabled) {
+  background-color: #ffffff;
+  background-image: none;
+  color: #000000;
+}
+.sp-btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Button, ink (#000000 -> #efefef on hover) */
+.sp-btn-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.352px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #262626;
+}
+.sp-btn-ink:hover:not(:disabled) {
+  background-color: #efefef;
+  color: #000000;
+  border-color: #efefef;
+}
+
+/* Button, outline (#b0b0b0 text, 2px solid #5d5d5d, 20px radius) */
+.sp-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: #b0b0b0;
+  border: 2px solid #5d5d5d;
+  border-radius: 20px;
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.sp-btn-outline:hover:not(:disabled) {
+  color: #ffffff;
+  border-color: #27c2d2;
+  background-color: rgba(14, 151, 176, 0.12);
+}
+
+/* Button, outline (sm) in header - 2px solid #000000, radius 15px */
+.sp-nav-pill-active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 6.4px 19.2px;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 15px;
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* Plain nav link in header - #ffffff -> #000000 on hover */
+.sp-nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  color: #ffffff;
+  font-family: "Helveticaneueltstd Md", "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.sp-nav-link:hover {
+  color: #000000;
+}
+
+/* Card, filled crimson (#aa4266, radius 10px) */
+.sp-card-crimson {
+  background-color: #aa4266;
+  color: #ffffff;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Card, elevated light (#d4d4d4 / #ffffff, radius 32px-48px) */
+.sp-card-elevated-light {
+  background-color: #d4d4d4;
+  color: #111111;
+  border-radius: 32px;
+  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 20px 15px;
+}
+
+/* Card, obsidian dark glass (#090909 / #131313) */
+.sp-card-dark {
+  background-color: #090909;
+  border: 1px solid #212121;
+  border-radius: 28px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 15px 5px;
+  color: #ffffff;
+}
+
+/* Marquee animation from components.css */
+@keyframes sp-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.sp-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: sp-scroll 28s linear infinite;
+}
+.sp-marquee-track:hover {
+  animation-play-state: paused;
+}

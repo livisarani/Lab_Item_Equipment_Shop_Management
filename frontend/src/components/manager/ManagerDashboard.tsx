@@ -42,24 +42,29 @@ export const ManagerDashboard: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Manager Dashboard</h1>
-          <p className="text-sm text-gray-500">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+            Operations & Quality Control
+          </span>
+          <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+            Manager Dashboard
+          </h1>
+          <p className="text-sm text-[#b0b0b0] mt-1">
             Commercial operations, order fulfillment oversight, revenue metrics, and stock availability
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={() => navigate('/manager/orders')}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium"
+            className="sp-btn-primary h-[48px] px-7 text-sm"
           >
             Process Orders ({pendingOrders.length} Pending)
           </button>
           <button
             onClick={() => navigate('/manager/invoices')}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-4 py-2 rounded-lg font-medium border border-gray-300"
+            className="sp-btn-outline h-[48px] px-6 text-sm"
           >
             View Invoices
           </button>
@@ -67,133 +72,151 @@ export const ManagerDashboard: React.FC = () => {
       </div>
 
       {notifiedBanner && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800 text-sm font-medium">
-          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-600" />
+        <div className="p-4 bg-[#0f9b40]/20 border border-[#0f9b40] rounded-[20px] flex items-center text-white text-sm font-medium">
+          <CheckCircleIcon className="h-5 w-5 mr-2.5 text-[#4dfd88]" />
           Inventory Manager (Helena Chen) has been notified via system alert and direct message!
         </div>
       )}
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Pending Orders</p>
-              <p className="text-2xl font-bold text-gray-900">{pendingOrders.length}</p>
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Pending Orders
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
+                {pendingOrders.length}
+              </p>
             </div>
-            <div className="p-3 bg-amber-100 rounded-full">
-              <ShoppingCartIcon className="h-6 w-6 text-amber-600" />
+            <div className="h-14 w-14 rounded-full bg-[#27c2d2] text-black flex items-center justify-center shadow-lg">
+              <ShoppingCartIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#b0b0b0] mt-3">
             Require review & dispatch approval
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-crimson p-6 shadow-xl">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Low Stock Items</p>
-              <p className="text-2xl font-bold text-red-600">{lowStockItems.length}</p>
+              <p className="text-xs uppercase tracking-wider text-white/80">
+                Low Stock Items
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
+                {lowStockItems.length}
+              </p>
             </div>
-            <div className="p-3 bg-red-100 rounded-full">
-              <PackageIcon className="h-6 w-6 text-red-600" />
+            <div className="h-14 w-14 rounded-full bg-black/30 text-white flex items-center justify-center">
+              <PackageIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Items at or below safety threshold</p>
+          <p className="text-xs text-white/90 mt-3 font-medium">
+            Items at or below safety threshold
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Settled Sales Revenue</p>
-              <p className="text-2xl font-bold text-green-600">${totalSales.toFixed(2)}</p>
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Settled Revenue
+              </p>
+              <p className="text-3xl font-bold text-[#4dfd88] mt-1 font-display">
+                ${totalSales.toFixed(2)}
+              </p>
             </div>
-            <div className="p-3 bg-green-100 rounded-full">
-              <BarChartIcon className="h-6 w-6 text-green-600" />
+            <div className="h-14 w-14 rounded-full bg-[#0f9b40] text-white flex items-center justify-center shadow-lg">
+              <BarChartIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#b0b0b0] mt-3">
             From{' '}
             {orders.filter((o) => ['delivered', 'completed'].includes(o.status)).length}{' '}
             fulfilled orders
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Active Invoices</p>
-              <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Active Invoices
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
+                {orders.length}
+              </p>
             </div>
-            <div className="p-3 bg-blue-100 rounded-full">
-              <ClipboardListIcon className="h-6 w-6 text-blue-600" />
+            <div className="h-14 w-14 rounded-full bg-[#0e97b0] text-white flex items-center justify-center shadow-lg">
+              <ClipboardListIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#b0b0b0] mt-3">
             {orders.filter((o) => o.paymentStatus === 'paid' || o.paymentMethod === 'online').length}{' '}
             paid in full
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Recent Orders Table */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Recent Orders</h2>
+        <div className="sp-card-dark p-6 sm:p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-white font-display">
+              Recent Orders
+            </h2>
             <button
               onClick={() => navigate('/manager/orders')}
-              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              className="text-sm text-[#27c2d2] hover:underline font-medium"
             >
               View All Orders →
             </button>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <table className="min-w-full divide-y divide-[#212121] text-sm">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Order ID
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Customer
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Amount
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#212121]">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 whitespace-nowrap font-medium text-blue-600">
+                  <tr key={order.id} className="hover:bg-[#131313]">
+                    <td className="px-4 py-3.5 whitespace-nowrap font-bold text-[#27c2d2]">
                       {order.id}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <p className="font-medium text-gray-900">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <p className="font-bold text-white">
                         {order.customerName || 'Lab Customer'}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[#b0b0b0]">
                         {new Date(order.createdAt).toLocaleDateString()}
                       </p>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap font-semibold">
+                    <td className="px-4 py-3.5 whitespace-nowrap font-bold text-white">
                       ${order.totalAmount.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
                       <span
-                        className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${
+                        className={`px-3 py-1 inline-flex text-xs font-bold rounded-full capitalize ${
                           order.status === 'completed' || order.status === 'delivered'
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-[#0f9b40]/30 text-[#4dfd88]'
                             : order.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : order.status === 'in-transit'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-purple-100 text-purple-800'
+                            ? 'bg-[#aa4266] text-white'
+                            : 'bg-[#0e97b0]/30 text-[#27c2d2]'
                         }`}
                       >
                         {order.status.replace('-', ' ')}
@@ -207,57 +230,59 @@ export const ManagerDashboard: React.FC = () => {
         </div>
 
         {/* Low Stock Alert */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Low Stock Alerts</h2>
+        <div className="sp-card-dark p-6 sm:p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-white font-display">
+              Low Stock Alerts
+            </h2>
             <button
               onClick={handleNotifyInventory}
-              className="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-3 py-1.5 rounded-lg font-semibold flex items-center"
+              className="text-xs bg-[#aa4266] hover:bg-[#c04c75] text-white px-4 py-2 rounded-[20px] font-bold flex items-center transition-colors"
             >
               <BellRingIcon className="h-3.5 w-3.5 mr-1.5" /> Notify Inventory Manager
             </button>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <table className="min-w-full divide-y divide-[#212121] text-sm">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Item & SKU
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Current Stock
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Threshold
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#212121]">
                 {lowStockItems.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <p className="font-medium text-gray-900">{item.name}</p>
-                      <p className="text-xs text-gray-500">{item.sku}</p>
+                  <tr key={item.id} className="hover:bg-[#131313]">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <p className="font-bold text-white">{item.name}</p>
+                      <p className="text-xs text-[#27c2d2]">{item.sku}</p>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-xs text-gray-600">
+                    <td className="px-4 py-3.5 whitespace-nowrap text-xs text-[#b0b0b0]">
                       {item.storageLocation}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <span className="text-red-600 font-bold">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <span className="text-[#aa4266] font-bold">
                         {item.stock} {item.unit}
                       </span>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                    <td className="px-4 py-3.5 whitespace-nowrap text-[#b0b0b0]">
                       {item.lowStockThreshold} {item.unit}
                     </td>
                   </tr>
                 ))}
                 {lowStockItems.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-4 py-6 text-center text-gray-500">
+                    <td colSpan={4} className="px-4 py-6 text-center text-[#b0b0b0]">
                       All items are above minimum safety stock thresholds
                     </td>
                   </tr>

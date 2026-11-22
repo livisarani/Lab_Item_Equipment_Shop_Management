@@ -81,36 +81,41 @@ export const UserManagement: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-          <p className="text-sm text-gray-500">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+            Access & Biosafety Clearances
+          </span>
+          <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+            User Management
+          </h1>
+          <p className="text-sm text-[#b0b0b0] mt-1">
             Manage staff roles, laboratory customer accounts, biosafety clearances, and access status
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex items-center font-medium shadow-sm"
+          className="sp-btn-primary h-[50px] px-7 text-sm"
         >
           <PlusIcon className="h-4 w-4 mr-1.5" /> Add New User
         </button>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+      <div className="sp-card-dark p-6 sm:p-8">
         <div className="flex flex-wrap gap-4 mb-6">
           <div className="relative flex-grow max-w-md">
             <input
               type="text"
               placeholder="Search by name, email, or organization..."
-              className="pl-9 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              className="pl-10 pr-4 py-2.5 w-full bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] rounded-none focus:outline-none focus:border-[#0e97b0] text-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <SearchIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <SearchIcon className="absolute left-3.5 top-3 h-4 w-4 text-[#b0b0b0]" />
           </div>
           <select
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+            className="bg-[#000000] border border-[#2d2d2d] text-white px-4 py-2.5 rounded-none focus:outline-none focus:border-[#0e97b0] text-sm"
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
           >
@@ -124,70 +129,70 @@ export const UserManagement: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#212121] text-sm">
+            <thead className="bg-[#131313]">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   User & Organization
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Contact Info
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Role
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Clearance & Dept
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#212121]">
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-semibold text-gray-900">{user.name}</div>
-                    <div className="text-xs text-gray-500">
+                <tr key={user.id} className="hover:bg-[#131313]">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="font-bold text-white">{user.name}</div>
+                    <div className="text-xs text-[#b0b0b0]">
                       {user.organization || 'LISM Internal'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-gray-600">
-                    <div>{user.email}</div>
-                    <div className="text-xs text-gray-400">{user.phone || 'N/A'}</div>
+                  <td className="px-4 py-4 whitespace-nowrap text-[#b0b0b0]">
+                    <div className="text-white">{user.email}</div>
+                    <div className="text-xs">{user.phone || 'N/A'}</div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-[#0e97b0]/25 text-[#27c2d2] border border-[#0e97b0] capitalize">
                       {user.role}
                     </span>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="text-xs font-medium text-gray-800">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="text-xs font-bold text-white">
                       {user.clearanceLevel || 'Standard Access'}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-[#b0b0b0]">
                       {user.department || 'General'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <span
-                      className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
+                      className={`px-3 py-1 text-xs font-bold rounded-full ${
                         user.isActive
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                          ? 'bg-[#0f9b40]/30 text-[#4dfd88]'
+                          : 'bg-[#aa4266] text-white'
                       }`}
                     >
                       {user.isActive ? 'Active' : 'Suspended'}
                     </span>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm space-x-3">
+                  <td className="px-4 py-4 whitespace-nowrap text-sm space-x-3">
                     <button
                       onClick={() => openEditModal(user)}
-                      className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
+                      className="text-[#27c2d2] hover:underline font-medium inline-flex items-center"
                     >
                       <EditIcon className="h-4 w-4 mr-1" /> Edit
                     </button>
@@ -195,8 +200,8 @@ export const UserManagement: React.FC = () => {
                       onClick={() => toggleUserStatus(user.id)}
                       className={`${
                         user.isActive
-                          ? 'text-amber-600 hover:text-amber-800'
-                          : 'text-green-600 hover:text-green-800'
+                          ? 'text-amber-400 hover:underline'
+                          : 'text-[#4dfd88] hover:underline'
                       } font-medium inline-flex items-center`}
                     >
                       <PowerIcon className="h-4 w-4 mr-1" />
@@ -204,7 +209,7 @@ export const UserManagement: React.FC = () => {
                     </button>
                     <button
                       onClick={() => deleteUser(user.id)}
-                      className="text-red-600 hover:text-red-800 font-medium inline-flex items-center"
+                      className="text-[#aa4266] hover:underline font-medium inline-flex items-center"
                     >
                       <TrashIcon className="h-4 w-4 mr-1" /> Delete
                     </button>
@@ -218,15 +223,15 @@ export const UserManagement: React.FC = () => {
 
       {/* Add / Edit User Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden">
-            <div className="flex justify-between items-center p-5 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-bold text-gray-900">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[#090909] border border-[#212121] rounded-[32px] shadow-2xl max-w-lg w-full overflow-hidden text-white">
+            <div className="flex justify-between items-center p-6 border-b border-[#212121] bg-[#131313]">
+              <h2 className="text-lg font-bold text-white font-display">
                 {editingUser ? 'Edit User Account' : 'Create New User Account'}
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-[#b0b0b0] hover:text-white"
               >
                 <XIcon className="h-5 w-5" />
               </button>
@@ -234,35 +239,35 @@ export const UserManagement: React.FC = () => {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Full Name *
                   </label>
                   <input
                     type="text"
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Email Address *
                   </label>
                   <input
                     type="email"
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     System Role *
                   </label>
                   <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.role}
                     onChange={(e) =>
                       setFormData({ ...formData, role: e.target.value as User['role'] })
@@ -276,24 +281,24 @@ export const UserManagement: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Phone Number
                   </label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Organization / Institute
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. Apex BioLabs"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.organization}
                     onChange={(e) =>
                       setFormData({ ...formData, organization: e.target.value })
@@ -301,13 +306,13 @@ export const UserManagement: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Department
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. Organic Synthesis"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.department}
                     onChange={(e) =>
                       setFormData({ ...formData, department: e.target.value })
@@ -315,13 +320,13 @@ export const UserManagement: React.FC = () => {
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Biosafety / Hazmat Clearance Level
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. BSL-2 Verified Buyer / ADR Hazmat Certified"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.clearanceLevel}
                     onChange={(e) =>
                       setFormData({ ...formData, clearanceLevel: e.target.value })
@@ -329,29 +334,29 @@ export const UserManagement: React.FC = () => {
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                     Laboratory / Delivery Address
                   </label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2 text-sm rounded-none"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+              <div className="flex justify-end gap-3 pt-4 border-t border-[#212121]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+                  className="sp-btn-outline px-5 py-2 text-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 flex items-center"
+                  className="sp-btn-primary px-6 py-2 text-sm"
                 >
                   <CheckCircleIcon className="h-4 w-4 mr-1.5" />
                   {editingUser ? 'Save Changes' : 'Create User'}

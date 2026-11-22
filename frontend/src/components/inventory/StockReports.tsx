@@ -45,106 +45,119 @@ export const StockReports: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+            Warehouse Asset Telemetry
+          </span>
+          <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
             Stock Valuation & Compliance Reports
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#b0b0b0] mt-1">
             Analyze total warehouse valuation, replenish low-stock items, and export audit-ready CSV sheets
           </p>
         </div>
         <button
           onClick={exportInventoryCSV}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex items-center text-sm font-medium"
+          className="sp-btn-primary h-[50px] px-7 text-sm"
         >
           <DownloadIcon className="h-4 w-4 mr-1.5" /> Export Stock CSV
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <p className="text-sm text-gray-500">Total Warehouse Asset Value</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="sp-card-dark p-6">
+          <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+            Total Warehouse Asset Value
+          </p>
+          <p className="text-3xl font-bold text-white mt-1 font-display">
             ${totalValue.toFixed(2)}
           </p>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#b0b0b0] mt-3">
             Across {items.reduce((s, i) => s + i.stock, 0)} total units in storage
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Low Stock Alerts</p>
-              <p className="text-2xl font-bold text-amber-600">
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Low Stock Alerts
+              </p>
+              <p className="text-3xl font-bold text-[#27c2d2] mt-1 font-display">
                 {lowStockItems.length}
               </p>
             </div>
-            <div className="p-3 bg-amber-100 rounded-full">
-              <TrendingDownIcon className="h-6 w-6 text-amber-600" />
+            <div className="h-14 w-14 rounded-full bg-[#27c2d2] text-black flex items-center justify-center shadow-lg">
+              <TrendingDownIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Require supplier purchase orders</p>
+          <p className="text-xs text-[#b0b0b0] mt-3">
+            Require supplier purchase orders
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-crimson p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Expired Chemical Batches</p>
-              <p className="text-2xl font-bold text-red-600">
+              <p className="text-xs uppercase tracking-wider text-white/80">
+                Expired Chemical Batches
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
                 {expiredItems.length}
               </p>
             </div>
-            <div className="p-3 bg-red-100 rounded-full">
-              <AlertCircleIcon className="h-6 w-6 text-red-600" />
+            <div className="h-14 w-14 rounded-full bg-black/30 text-white flex items-center justify-center">
+              <AlertCircleIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Flagged for hazmat disposal</p>
+          <p className="text-xs text-white/90 mt-3 font-medium">
+            Flagged for hazmat disposal
+          </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="sp-card-dark p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-white mb-6 font-display">
             Low Stock Replenishment Queue
           </h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <table className="min-w-full divide-y divide-[#212121] text-sm">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                     Item & SKU
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                     Current
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                     Threshold
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                     Quick Action
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#212121]">
                 {lowStockItems.map((item) => (
-                  <tr key={item.id}>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{item.name}</div>
-                      <div className="text-xs text-gray-500">{item.sku}</div>
+                  <tr key={item.id} className="hover:bg-[#131313]">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <div className="font-bold text-white">{item.name}</div>
+                      <div className="text-xs text-[#27c2d2]">{item.sku}</div>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-red-600 font-bold">
+                    <td className="px-4 py-3.5 whitespace-nowrap text-[#aa4266] font-bold">
                       {item.stock} {item.unit}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                    <td className="px-4 py-3.5 whitespace-nowrap text-[#b0b0b0]">
                       {item.lowStockThreshold} {item.unit}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td className="px-4 py-3.5 whitespace-nowrap">
                       <button
                         onClick={() => restockItem(item.id, 15)}
-                        className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded flex items-center"
+                        className="sp-btn-primary px-3.5 py-1.5 text-xs"
                       >
                         <RefreshCwIcon className="h-3 w-3 mr-1" /> Restock +15
                       </button>
@@ -153,7 +166,7 @@ export const StockReports: React.FC = () => {
                 ))}
                 {lowStockItems.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-4 py-6 text-center text-gray-500">
+                    <td colSpan={4} className="px-4 py-6 text-center text-[#b0b0b0]">
                       No low stock items — all inventory thresholds satisfied!
                     </td>
                   </tr>
@@ -163,23 +176,23 @@ export const StockReports: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">
+        <div className="sp-card-dark p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-white mb-6 font-display">
             Inventory Breakdown by Category
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">
+              <div className="flex justify-between mb-2">
+                <span className="text-sm font-bold text-white">
                   Chemicals, Acids, Bases & Solvents
                 </span>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm font-bold text-[#27c2d2]">
                   {items.filter((i) => i.type === 'chemical').length} SKUs
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="w-full bg-[#131313] rounded-full h-3 border border-[#212121]">
                 <div
-                  className="bg-blue-600 h-2.5 rounded-full"
+                  className="bg-[#0e97b0] h-full rounded-full"
                   style={{
                     width: `${
                       (items.filter((i) => i.type === 'chemical').length /
@@ -191,17 +204,17 @@ export const StockReports: React.FC = () => {
               </div>
             </div>
             <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">
+              <div className="flex justify-between mb-2">
+                <span className="text-sm font-bold text-white">
                   Precision Equipment, Optics & Glassware
                 </span>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm font-bold text-[#4dfd88]">
                   {items.filter((i) => i.type === 'equipment').length} SKUs
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="w-full bg-[#131313] rounded-full h-3 border border-[#212121]">
                 <div
-                  className="bg-green-600 h-2.5 rounded-full"
+                  className="bg-[#0f9b40] h-full rounded-full"
                   style={{
                     width: `${
                       (items.filter((i) => i.type === 'equipment').length /

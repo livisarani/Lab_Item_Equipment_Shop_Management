@@ -11,7 +11,7 @@ import {
   SettingsIcon,
   BarChartIcon,
   MessageSquareIcon,
-  ShieldCheckIcon
+  ActivityIcon
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -70,14 +70,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
             label: 'Item Availability',
             path: '/manager/items',
             badge: lowStockCount > 0 ? `${lowStockCount} Low` : undefined,
-            badgeColor: 'bg-red-500'
+            badgeColor: 'bg-[#aa4266]'
           },
           {
             icon: <ShoppingCartIcon size={18} />,
             label: 'Orders',
             path: '/manager/orders',
             badge: pendingOrdersCount > 0 ? String(pendingOrdersCount) : undefined,
-            badgeColor: 'bg-amber-500'
+            badgeColor: 'bg-[#0e97b0]'
           },
           {
             icon: <ClipboardListIcon size={18} />,
@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
             label: 'Messages',
             path: '/manager/messages',
             badge: unreadMessagesCount > 0 ? String(unreadMessagesCount) : undefined,
-            badgeColor: 'bg-blue-500'
+            badgeColor: 'bg-[#0f9b40]'
           }
         ];
 
@@ -102,15 +102,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
         return [
           {
             icon: <HomeIcon size={18} />,
-            label: 'Dashboard',
+            label: 'Overview & Hero',
             path: '/customer'
           },
           {
             icon: <ShoppingCartIcon size={18} />,
-            label: 'Shop Catalog',
+            label: 'Lab Catalog',
             path: '/customer/shop',
             badge: cartItemsCount > 0 ? `${cartItemsCount} in cart` : undefined,
-            badgeColor: 'bg-blue-500'
+            badgeColor: 'bg-[#0e97b0]'
           },
           {
             icon: <ClipboardListIcon size={18} />,
@@ -119,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
           },
           {
             icon: <MessageSquareIcon size={18} />,
-            label: 'Support & SDS Help',
+            label: 'R&D & SDS Support',
             path: '/customer/support'
           }
         ];
@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
         return [
           {
             icon: <HomeIcon size={18} />,
-            label: 'Dashboard',
+            label: 'Vault Dashboard',
             path: '/inventory'
           },
           {
@@ -136,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
             label: 'Inventory & Batches',
             path: '/inventory/manage',
             badge: lowStockCount > 0 ? `${lowStockCount} Alert` : undefined,
-            badgeColor: 'bg-amber-500'
+            badgeColor: 'bg-[#aa4266]'
           },
           {
             icon: <ClipboardListIcon size={18} />,
@@ -149,7 +149,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
         return [
           {
             icon: <HomeIcon size={18} />,
-            label: 'Dashboard',
+            label: 'Fleet Dashboard',
             path: '/delivery'
           },
           {
@@ -157,7 +157,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
             label: 'Deliveries Queue',
             path: '/delivery/manage',
             badge: activeDeliveriesCount > 0 ? String(activeDeliveriesCount) : undefined,
-            badgeColor: 'bg-blue-500'
+            badgeColor: 'bg-[#0e97b0]'
           },
           {
             icon: <ClipboardListIcon size={18} />,
@@ -178,41 +178,53 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
   };
 
   return (
-    <div className="bg-blue-900 text-white w-64 flex-shrink-0 h-full flex flex-col justify-between">
+    <aside className="bg-[#090909] text-white w-64 flex-shrink-0 border-r border-[#212121] hidden md:flex flex-col justify-between">
       <div>
-        <div className="p-4 border-b border-blue-800">
+        <div className="p-5 border-b border-[#212121]">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold tracking-wide">
-              {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} Panel
-            </h2>
-            <ShieldCheckIcon className="h-5 w-5 text-blue-300" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+              {currentRole} module
+            </span>
+            <span className="h-2.5 w-2.5 rounded-full bg-[#4dfd88] animate-pulse" title="Real-Time Telemetry Active" />
           </div>
-          <p className="text-xs text-blue-300 mt-0.5">
-            ISO-9001 & OSHA Lab Compliant
+          <h2 className="text-lg font-bold tracking-tight text-white mt-1 font-display">
+            {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} Control
+          </h2>
+          <p className="text-xs text-[#b0b0b0] mt-0.5">
+            GMP Annex 1 • ISO-9001 • 21 CFR
           </p>
         </div>
-        <nav className="mt-4">
-          <ul className="space-y-1">
+
+        <nav className="p-3">
+          <ul className="space-y-1.5">
             {getNavItems().map((item, index) => {
               const isActive = location.pathname === item.path;
               return (
                 <li key={index}>
                   <Link
                     to={item.path}
-                    className={`flex items-center justify-between px-6 py-3 hover:bg-blue-800 transition-colors ${
+                    className={`flex items-center justify-between px-4 py-3 rounded-[20px] transition-all duration-300 ${
                       isActive
-                        ? 'bg-blue-800 border-l-4 border-white font-semibold'
-                        : 'text-blue-100'
+                        ? 'bg-[#0e97b0] text-white font-semibold shadow-lg'
+                        : 'text-[#b0b0b0] hover:bg-[#131313] hover:text-white'
                     }`}
                   >
                     <div className="flex items-center">
-                      <span className="mr-3">{item.icon}</span>
+                      <span
+                        className={`mr-3 h-8 w-8 rounded-full flex items-center justify-center ${
+                          isActive
+                            ? 'bg-black/30 text-white'
+                            : 'bg-[#131313] text-[#27c2d2]'
+                        }`}
+                      >
+                        {item.icon}
+                      </span>
                       <span className="text-sm">{item.label}</span>
                     </div>
                     {item.badge && (
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full text-white ${
-                          item.badgeColor || 'bg-blue-600'
+                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full text-white ${
+                          item.badgeColor || 'bg-[#0e97b0]'
                         }`}
                       >
                         {item.badge}
@@ -226,11 +238,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
         </nav>
       </div>
 
-      <div className="p-4 border-t border-blue-800 text-xs text-blue-300 space-y-1">
-        <p className="font-semibold text-white">LISM Safety Hotline</p>
-        <p>Hazmat Dispatch: Ext. 409</p>
-        <p className="text-[11px] text-blue-400">All chemical lots CoA verified</p>
+      {/* Bottom Real-Time Incubator / Lab Status Card */}
+      <div className="p-4 m-3 rounded-[24px] bg-[#131313] border border-[#212121] text-xs space-y-2">
+        <div className="flex items-center space-x-2 text-[#27c2d2] font-semibold">
+          <ActivityIcon className="h-4 w-4" />
+          <span>Real-Time Lab Monitor</span>
+        </div>
+        <p className="text-[#b0b0b0] leading-relaxed">
+          Vault Temp: <strong className="text-white">18.4°C</strong> • Cold-Chain:{' '}
+          <strong className="text-[#4dfd88]">Nominal</strong>
+        </p>
+        <p className="text-[11px] text-[#888]">
+          All chemical lots CoA & SDS verified
+        </p>
       </div>
-    </div>
+    </aside>
   );
 };

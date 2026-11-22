@@ -7,49 +7,54 @@ export const MyOrders: React.FC = () => {
   const customerOrders = orders.filter((order) => order.customerId === '3');
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">My Laboratory Orders</h1>
-        <p className="text-sm text-gray-500">
-          Track live delivery status, view itemized chemical/equipment breakdowns, and manage pending requisitions
+    <div className="space-y-8">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+          Real-Time Requisition Tracking
+        </span>
+        <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+          My Laboratory Orders
+        </h1>
+        <p className="text-sm text-[#b0b0b0] mt-1">
+          Track live hazmat and cold-chain dispatches, inspect itemized chemical lots, and manage pending requisitions
         </p>
       </div>
 
       {customerOrders.length > 0 ? (
-        <div className="space-y-5">
+        <div className="space-y-6">
           {customerOrders.map((order) => (
             <div
               key={order.id}
-              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
+              className="sp-card-dark p-6 sm:p-8 hover:border-[#0e97b0] transition-colors"
             >
               <div className="flex flex-wrap justify-between items-start mb-4 gap-3">
                 <div>
-                  <div className="flex items-center space-x-2">
-                    <h3 className="text-lg font-bold text-blue-900">{order.id}</h3>
+                  <div className="flex items-center space-x-3">
+                    <h3 className="text-xl font-bold text-[#27c2d2] font-display">
+                      {order.id}
+                    </h3>
                     {order.invoiceNumber && (
-                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded border border-gray-200">
+                      <span className="text-xs bg-[#131313] text-[#b0b0b0] px-3 py-1 rounded-full border border-[#212121]">
                         Invoice: {order.invoiceNumber}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-[#b0b0b0] mt-1.5">
                     Placed on {new Date(order.createdAt).toLocaleString()}
                     {order.trackingNumber && ` • Tracking: ${order.trackingNumber}`}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <span
-                    className={`px-3 py-1 text-xs font-semibold rounded-full capitalize ${
+                    className={`px-4 py-1.5 text-xs font-bold rounded-full capitalize ${
                       order.status === 'completed' || order.status === 'delivered'
-                        ? 'bg-green-100 text-green-800'
+                        ? 'bg-[#0f9b40] text-white'
                         : order.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-800'
+                        ? 'bg-[#aa4266] text-white'
                         : order.status === 'in-transit'
-                        ? 'bg-blue-100 text-blue-800'
-                        : order.status === 'cancelled'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-purple-100 text-purple-800'
+                        ? 'bg-[#0e97b0] text-white'
+                        : 'bg-[#212121] text-[#b0b0b0]'
                     }`}
                   >
                     {order.status.replace('-', ' ')}
@@ -58,7 +63,7 @@ export const MyOrders: React.FC = () => {
                   {order.status === 'pending' && (
                     <button
                       onClick={() => updateOrder(order.id, { status: 'cancelled' })}
-                      className="text-xs text-red-600 hover:text-red-800 border border-red-200 bg-red-50 px-2.5 py-1 rounded-lg flex items-center font-medium"
+                      className="text-xs text-white bg-[#aa4266]/40 hover:bg-[#aa4266] border border-[#aa4266] px-3.5 py-1.5 rounded-[20px] flex items-center font-semibold transition-colors"
                     >
                       <XCircleIcon className="h-3.5 w-3.5 mr-1" /> Cancel Order
                     </button>
@@ -66,8 +71,8 @@ export const MyOrders: React.FC = () => {
                 </div>
               </div>
 
-              <div className="border-t border-b border-gray-200 py-4 my-4">
-                <div className="space-y-2.5">
+              <div className="border-t border-b border-[#212121] py-4 my-4">
+                <div className="space-y-3">
                   {order.items.map((orderItem, idx) => {
                     const catalogItem = items.find((i) => i.id === orderItem.itemId);
                     const displayName =
@@ -75,12 +80,12 @@ export const MyOrders: React.FC = () => {
                     return (
                       <div key={idx} className="flex justify-between text-sm items-center">
                         <div>
-                          <span className="font-medium text-gray-900">{displayName}</span>
-                          <span className="text-gray-500 text-xs ml-2">
+                          <span className="font-semibold text-white">{displayName}</span>
+                          <span className="text-[#b0b0b0] text-xs ml-2">
                             ({catalogItem?.sku || `ID-${orderItem.itemId}`}) × {orderItem.quantity}
                           </span>
                         </div>
-                        <span className="font-semibold text-gray-900">
+                        <span className="font-bold text-white">
                           ${(orderItem.quantity * orderItem.price).toFixed(2)}
                         </span>
                       </div>
@@ -90,31 +95,31 @@ export const MyOrders: React.FC = () => {
               </div>
 
               <div className="flex flex-wrap justify-between items-center gap-4">
-                <div className="text-xs text-gray-600 space-y-1">
+                <div className="text-xs text-[#b0b0b0] space-y-1">
                   <p>
                     Payment Method:{' '}
-                    <span className="font-semibold text-gray-900 uppercase">
+                    <span className="font-bold text-white uppercase">
                       {order.paymentMethod}
                     </span>{' '}
                     ({order.paymentStatus || 'Paid'})
                   </p>
                   <p className="flex items-center">
-                    <TruckIcon className="h-3.5 w-3.5 mr-1 text-blue-600" />
+                    <TruckIcon className="h-3.5 w-3.5 mr-1.5 text-[#27c2d2]" />
                     Fulfillment:{' '}
-                    <span className="font-semibold text-gray-900 capitalize ml-1">
+                    <span className="font-bold text-white capitalize ml-1">
                       {order.fulfillmentOption}
                     </span>{' '}
                     — {order.deliveryAddress || 'LISM Pickup Counter'}
                   </p>
                   {order.assignedDriver && (
-                    <p className="text-blue-700 font-medium">
-                      Assigned Hazmat Courier: {order.assignedDriver}
+                    <p className="text-[#27c2d2] font-semibold">
+                      Assigned ADR Hazmat Courier: {order.assignedDriver}
                     </p>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-gray-500">Order Total (Incl. Tax)</p>
-                  <p className="text-xl font-bold text-gray-900">
+                  <p className="text-xs text-[#b0b0b0]">Order Total (Incl. Tax)</p>
+                  <p className="text-2xl font-bold text-white font-display">
                     ${order.totalAmount.toFixed(2)}
                   </p>
                 </div>
@@ -123,12 +128,10 @@ export const MyOrders: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white p-12 rounded-lg shadow-sm border border-gray-200 text-center">
-          <PackageIcon className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No orders yet
-          </h3>
-          <p className="text-gray-500">
+        <div className="sp-card-dark p-12 text-center">
+          <PackageIcon className="h-16 w-16 mx-auto text-[#5d5d5d] mb-4" />
+          <h3 className="text-lg font-bold text-white mb-2">No orders yet</h3>
+          <p className="text-[#b0b0b0]">
             Start shopping to place your first laboratory order
           </p>
         </div>

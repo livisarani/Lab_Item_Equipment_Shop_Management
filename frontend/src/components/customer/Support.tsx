@@ -22,35 +22,41 @@ export const Support: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Customer Support & Compliance Helpdesk
+    <div className="space-y-10">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+          R&D & Regulatory Assistance
+        </span>
+        <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+          Stay connected to your lab
         </h1>
-        <p className="text-sm text-gray-500">
-          Request Safety Data Sheets (SDS), Certificates of Analysis (CoA), calibration support, or hazmat delivery assistance
+        <p className="text-sm text-[#b0b0b0] mt-1">
+          Request Safety Data Sheets (SDS), Certificates of Analysis (CoA), GMP Annex 1 validation, or hazmat delivery assistance
         </p>
       </div>
 
       {submittedBanner && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800 text-sm font-medium">
-          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-600" />
+        <div className="p-4 bg-[#0f9b40]/20 border border-[#0f9b40] rounded-[20px] flex items-center text-white text-sm font-medium">
+          <CheckCircleIcon className="h-5 w-5 mr-2.5 text-[#4dfd88]" />
           Your support ticket has been routed directly to the Operations Manager (visible in Manager → Messages)!
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">Submit a Support Ticket</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left: Dark Obsidian Ticket Submission Panel */}
+        <div className="sp-card-dark p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-white mb-5 font-display">
+            Submit an R&D / Compliance Ticket
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                 Subject *
               </label>
               <input
                 type="text"
                 placeholder="e.g. Requesting CoA for Lot LOT-SA-2026-089"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] px-3.5 py-2.5 text-sm rounded-none focus:outline-none focus:border-[#0e97b0]"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 required
@@ -59,11 +65,11 @@ export const Support: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                   Inquiry Category
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                  className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2.5 text-sm rounded-none focus:outline-none focus:border-[#0e97b0]"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
@@ -82,11 +88,11 @@ export const Support: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                   Priority Level
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                  className="w-full bg-[#000000] border border-[#2d2d2d] text-white px-3 py-2.5 text-sm rounded-none focus:outline-none focus:border-[#0e97b0]"
                   value={priority}
                   onChange={(e) =>
                     setPriority(
@@ -103,13 +109,13 @@ export const Support: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-semibold text-[#b0b0b0] uppercase mb-1">
                 Detailed Message *
               </label>
               <textarea
                 rows={5}
                 placeholder="Describe your order ID, batch number, or technical question..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] px-3.5 py-2.5 text-sm rounded-none focus:outline-none focus:border-[#0e97b0]"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 required
@@ -118,89 +124,94 @@ export const Support: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg flex items-center justify-center font-medium text-sm"
+              className="sp-btn-primary w-full h-[54px] text-base"
             >
-              <SendIcon className="h-4 w-4 mr-2" /> Submit Support Ticket
+              <SendIcon className="h-4 w-4 mr-2" /> Send Message
             </button>
           </form>
 
           {/* My Active Support Threads */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h3 className="font-semibold text-sm text-gray-900 mb-3 flex items-center">
-              <MessageSquareIcon className="h-4 w-4 mr-1.5 text-blue-600" />
-              My Support Threads ({myTickets.length})
+          <div className="mt-8 pt-6 border-t border-[#212121]">
+            <h3 className="font-bold text-sm text-white mb-3 flex items-center">
+              <MessageSquareIcon className="h-4 w-4 mr-1.5 text-[#27c2d2]" />
+              My Active Support Threads ({myTickets.length})
             </h3>
             <div className="space-y-3 max-h-60 overflow-y-auto">
               {myTickets.map((t) => (
                 <div
                   key={t.id}
-                  className="p-3 rounded-lg bg-gray-50 border border-gray-200 text-xs"
+                  className="p-3.5 rounded-[20px] bg-[#131313] border border-[#212121] text-xs"
                 >
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-semibold text-gray-900">{t.subject}</span>
-                    <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-semibold">
+                    <span className="font-bold text-white">{t.subject}</span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#0e97b0] text-white font-bold">
                       {t.status}
                     </span>
                   </div>
-                  <p className="text-gray-600">Latest: {t.lastMessage}</p>
+                  <p className="text-[#b0b0b0]">Latest: {t.lastMessage}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
+        {/* Right: High-Contrast White/Light Section Band (Region r2 "Stay connected to your lab" recipe) */}
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h2 className="text-lg font-semibold mb-4">
-              Frequently Asked Questions
+          <div className="bg-white text-[#111111] p-7 sm:p-8 rounded-[40px] shadow-2xl">
+            <span className="inline-block bg-[#27c2d2] text-white text-xs font-bold uppercase px-3 py-1 rounded-full mb-3">
+              NEW
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#111111] mb-4 font-display">
+              Visualize your analyses & SDS remotely
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-5 text-sm text-[#3d3d3d]">
               <div>
-                <h3 className="font-medium text-sm mb-1">
-                  How do I obtain Safety Data Sheets (SDS) and Certificates of Analysis (CoA)?
+                <h3 className="font-bold text-base text-[#111111] mb-1">
+                  Safety Data Sheets (SDS) & Certificates of Analysis (CoA)
                 </h3>
-                <p className="text-xs text-gray-600">
-                  Every chemical batch includes a printed CoA & SDS in the shipping pouch, or you can request digital PDFs by referencing the Batch/Lot number above.
+                <p className="leading-relaxed">
+                  Every chemical batch includes a printed CoA & SDS in the shipping pouch, or you can request digital 21 CFR Part 11 signed PDFs by referencing the Batch/Lot number.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium text-sm mb-1">
-                  What are the requirements for Corrosive & Flammable chemical deliveries?
+                <h3 className="font-bold text-base text-[#111111] mb-1">
+                  Corrosive & Flammable Chemical Deliveries
                 </h3>
-                <p className="text-xs text-gray-600">
+                <p className="leading-relaxed">
                   Restricted reagents require an active BSL/OSHA clearance on your account and are delivered via LISM ADR-certified hazmat couriers with secondary containment.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium text-sm mb-1">
-                  Are optical and analytical equipment items pre-calibrated?
+                <h3 className="font-bold text-base text-[#111111] mb-1">
+                  ISO-17025 Optical & Metrology Calibration
                 </h3>
-                <p className="text-xs text-gray-600">
-                  Yes, all balances, centrifuges, thermal cyclers, and spectrophotometers ship with an ISO-17025 traceable calibration certificate.
+                <p className="leading-relaxed">
+                  All balances, centrifuges, thermal cyclers, and spectrophotometers ship with an ISO-17025 traceable factory calibration certificate.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h2 className="text-lg font-semibold mb-4">
-              LISM Scientific Contact Information
+          <div className="sp-card-dark p-6 sm:p-8">
+            <h2 className="text-lg font-bold text-white mb-4 font-display">
+              LISM Interscience Contact Information
             </h2>
-            <div className="space-y-2 text-sm text-gray-700">
+            <div className="space-y-2.5 text-sm text-[#b0b0b0]">
               <p>
-                <span className="font-semibold">Operations Email:</span>{' '}
+                <span className="font-bold text-white">Operations Email:</span>{' '}
                 {systemConfig.companyEmail}
               </p>
               <p>
-                <span className="font-semibold">24/7 Lab Hotline:</span>{' '}
+                <span className="font-bold text-white">24/7 Lab Hotline:</span>{' '}
                 {systemConfig.companyPhone}
               </p>
               <p>
-                <span className="font-semibold">Facility Address:</span>{' '}
+                <span className="font-bold text-white">Facility Address:</span>{' '}
                 {systemConfig.companyAddress}
               </p>
               <p>
-                <span className="font-semibold">Dispatch Hours:</span> Mon–Fri, 7:30 AM – 6:00 PM
+                <span className="font-bold text-white">Dispatch Hours:</span>{' '}
+                Mon–Fri, 7:30 AM – 6:00 PM
               </p>
             </div>
           </div>

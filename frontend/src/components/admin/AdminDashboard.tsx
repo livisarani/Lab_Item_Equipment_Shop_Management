@@ -4,7 +4,6 @@ import { useAppContext } from '../../context/AppContext';
 import {
   UsersIcon,
   PackageIcon,
-  ClipboardListIcon,
   AlertCircleIcon,
   ShieldCheckIcon,
   DollarSignIcon,
@@ -35,24 +34,29 @@ export const AdminDashboard: React.FC = () => {
     .reduce((sum, o) => sum + o.totalAmount, 0);
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-sm text-gray-500">
-            Enterprise overview of users, compliance audit logs, inventory alerts, and system status
+          <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+            System Telemetry & Governance
+          </span>
+          <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+            Admin Dashboard
+          </h1>
+          <p className="text-sm text-[#b0b0b0] mt-1">
+            Enterprise overview of users, 21 CFR Part 11 audit logs, inventory alerts, and system status
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={() => navigate('/admin/users')}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium"
+            className="sp-btn-primary h-[48px] px-7 text-sm"
           >
             Manage Users
           </button>
           <button
             onClick={() => navigate('/admin/config')}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-4 py-2 rounded-lg font-medium border border-gray-300"
+            className="sp-btn-outline h-[48px] px-6 text-sm"
           >
             System Settings
           </button>
@@ -60,126 +64,142 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Total Users</p>
-              <p className="text-2xl font-bold text-gray-900">{users.length}</p>
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Total Users
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
+                {users.length}
+              </p>
             </div>
-            <div className="p-3 bg-blue-100 rounded-full">
-              <UsersIcon className="h-6 w-6 text-blue-600" />
+            <div className="h-14 w-14 rounded-full bg-[#27c2d2] text-black flex items-center justify-center shadow-lg">
+              <UsersIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            <span className="text-green-600 font-semibold">{activeUsers.length} active</span>{' '}
+          <p className="text-xs text-[#b0b0b0] mt-3">
+            <span className="text-[#4dfd88] font-bold">{activeUsers.length} active</span>{' '}
             • {users.length - activeUsers.length} suspended
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Catalog Items</p>
-              <p className="text-2xl font-bold text-gray-900">{items.length}</p>
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Catalog Items
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
+                {items.length}
+              </p>
             </div>
-            <div className="p-3 bg-green-100 rounded-full">
-              <PackageIcon className="h-6 w-6 text-green-600" />
+            <div className="h-14 w-14 rounded-full bg-[#0f9b40] text-white flex items-center justify-center shadow-lg">
+              <PackageIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            <span className="text-amber-600 font-semibold">{lowStockItems.length} items</span>{' '}
+          <p className="text-xs text-[#b0b0b0] mt-3">
+            <span className="text-[#aa4266] font-bold">{lowStockItems.length} items</span>{' '}
             low on stock
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Total Orders & Volume</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Orders & Volume
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
                 {orders.length} (${totalRevenue.toFixed(0)})
               </p>
             </div>
-            <div className="p-3 bg-purple-100 rounded-full">
-              <DollarSignIcon className="h-6 w-6 text-purple-600" />
+            <div className="h-14 w-14 rounded-full bg-[#0e97b0] text-white flex items-center justify-center shadow-lg">
+              <DollarSignIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#b0b0b0] mt-3">
             {orders.filter((o) => o.status === 'pending').length} pending approval
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-crimson p-6 shadow-xl">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">System Alerts</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs uppercase tracking-wider text-white/80">
+                System Alerts
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
                 {adminNotifications.length}
               </p>
             </div>
-            <div className="p-3 bg-amber-100 rounded-full">
-              <AlertCircleIcon className="h-6 w-6 text-amber-600" />
+            <div className="h-14 w-14 rounded-full bg-black/30 text-white flex items-center justify-center">
+              <AlertCircleIcon className="h-6 w-6" />
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-white/90 mt-3 font-medium">
             {adminNotifications.filter((n) => !n.read).length} unread notifications
           </p>
         </div>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* User Directory Overview */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">User Directory & Clearance</h2>
+        <div className="sp-card-dark p-6 sm:p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-white font-display">
+              User Directory & Clearance
+            </h2>
             <button
               onClick={() => navigate('/admin/users')}
-              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              className="text-sm text-[#27c2d2] hover:underline font-medium"
             >
               View All ({users.length}) →
             </button>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="min-w-full divide-y divide-[#212121] text-sm">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Name & Org
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Role
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Clearance
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase tracking-wider">
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 text-sm">
+              <tbody className="divide-y divide-[#212121]">
                 {users.slice(0, 6).map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50">
+                  <tr key={user.id} className="hover:bg-[#131313]">
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-xs text-gray-500">{user.organization || user.email}</p>
+                      <p className="font-bold text-white">{user.name}</p>
+                      <p className="text-xs text-[#b0b0b0]">
+                        {user.organization || user.email}
+                      </p>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap capitalize">
-                      <span className="px-2 py-0.5 text-xs font-semibold rounded bg-blue-50 text-blue-700 border border-blue-200">
+                      <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-[#0e97b0]/25 text-[#27c2d2] border border-[#0e97b0]">
                         {user.role}
                       </span>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-xs text-gray-600">
+                    <td className="px-4 py-3 whitespace-nowrap text-xs text-[#b0b0b0]">
                       {user.clearanceLevel || 'Standard'}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        className={`px-2.5 py-0.5 inline-flex text-xs font-bold rounded-full ${
                           user.isActive
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
+                            ? 'bg-[#0f9b40]/30 text-[#4dfd88]'
+                            : 'bg-[#aa4266] text-white'
                         }`}
                       >
                         {user.isActive ? 'Active' : 'Inactive'}
@@ -193,13 +213,15 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* System Notifications */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">System Notifications</h2>
+        <div className="sp-card-dark p-6 sm:p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-white font-display">
+              System Notifications
+            </h2>
             {adminNotifications.some((n) => !n.read) && (
               <button
                 onClick={markAllNotificationsAsRead}
-                className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center"
+                className="text-xs text-[#27c2d2] hover:underline font-medium flex items-center"
               >
                 <CheckIcon className="h-3.5 w-3.5 mr-1" /> Mark all as read
               </button>
@@ -211,81 +233,85 @@ export const AdminDashboard: React.FC = () => {
                 <div
                   key={notification.id}
                   onClick={() => markNotificationAsRead(notification.id)}
-                  className={`p-4 rounded-lg border cursor-pointer transition ${
+                  className={`p-4 rounded-[20px] border cursor-pointer transition ${
                     notification.read
-                      ? 'bg-gray-50 border-gray-200'
-                      : 'bg-blue-50 border-blue-200'
+                      ? 'bg-[#131313] border-[#212121]'
+                      : 'bg-[#0e4e65]/30 border-[#0e97b0]'
                   }`}
                 >
                   <div className="flex justify-between items-start">
-                    <h3 className="font-semibold text-sm text-gray-900">
+                    <h3 className="font-bold text-sm text-white">
                       {notification.title}
                     </h3>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#b0b0b0]">
                       {new Date(notification.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-[#b0b0b0] mt-1">
                     {notification.message}
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 text-sm">No notifications</p>
+              <p className="text-[#b0b0b0] text-sm">No notifications</p>
             )}
           </div>
         </div>
       </div>
 
       {/* Recent Security & Compliance Audit Feed */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center space-x-2">
-            <ShieldCheckIcon className="h-5 w-5 text-blue-600" />
-            <h2 className="text-lg font-semibold">Recent Security & Compliance Audit Feed</h2>
+      <div className="sp-card-dark p-6 sm:p-8">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center space-x-2.5">
+            <ShieldCheckIcon className="h-6 w-6 text-[#27c2d2]" />
+            <h2 className="text-xl font-bold text-white font-display">
+              Recent Security & Compliance Audit Feed
+            </h2>
           </div>
           <button
             onClick={() => navigate('/admin/audit')}
-            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="text-sm text-[#27c2d2] hover:underline font-medium"
           >
             View Complete Audit Trail →
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
+          <table className="min-w-full divide-y divide-[#212121] text-sm">
             <thead>
               <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Timestamp
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Actor
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Action
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Target
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Details
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#212121]">
               {auditLogs.slice(0, 4).map((log) => (
-                <tr key={log.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2.5 whitespace-nowrap text-xs text-gray-500">
+                <tr key={log.id} className="hover:bg-[#131313]">
+                  <td className="px-4 py-3 whitespace-nowrap text-xs text-[#b0b0b0]">
                     {new Date(log.timestamp).toLocaleString()}
                   </td>
-                  <td className="px-4 py-2.5 whitespace-nowrap font-medium">
+                  <td className="px-4 py-3 whitespace-nowrap font-bold text-white">
                     {log.user}
                   </td>
-                  <td className="px-4 py-2.5 whitespace-nowrap">{log.action}</td>
-                  <td className="px-4 py-2.5 whitespace-nowrap text-blue-600 font-medium">
+                  <td className="px-4 py-3 whitespace-nowrap text-white">
+                    {log.action}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-[#27c2d2] font-semibold">
                     {log.target}
                   </td>
-                  <td className="px-4 py-2.5 text-gray-600 text-xs">
+                  <td className="px-4 py-3 text-[#b0b0b0] text-xs">
                     {log.details}
                   </td>
                 </tr>

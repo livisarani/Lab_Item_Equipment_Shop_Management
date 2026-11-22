@@ -5,5 +5,5 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
-  return <div className="bg-white rounded-lg shadow-sm p-6">{children}</div>;
+  return <div className="sp-card-dark p-6 sm:p-8">{children}</div>;
 };

@@ -32,28 +32,33 @@ export const ManagerOrders: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Order Management</h1>
-        <p className="text-sm text-gray-500">
+    <div className="space-y-8">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+          Fulfillment & Dispatch Desk
+        </span>
+        <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
+          Order Management
+        </h1>
+        <p className="text-sm text-[#b0b0b0] mt-1">
           Review, approve, assign drivers, and update fulfillment status for all customer laboratory orders
         </p>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="sp-card-dark p-6 sm:p-8">
         <div className="flex flex-wrap gap-4 mb-6">
           <div className="relative flex-grow max-w-md">
             <input
               type="text"
               placeholder="Search by Order ID, Invoice #, or Customer Name..."
-              className="pl-9 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              className="pl-10 pr-4 py-2.5 w-full bg-[#000000] border border-[#2d2d2d] text-white placeholder-[#b0b0b0] rounded-none focus:outline-none focus:border-[#0e97b0] text-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <SearchIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <SearchIcon className="absolute left-3.5 top-3 h-4 w-4 text-[#b0b0b0]" />
           </div>
           <select
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+            className="bg-[#000000] border border-[#2d2d2d] text-white px-4 py-2.5 rounded-none focus:outline-none focus:border-[#0e97b0] text-sm"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
@@ -68,83 +73,79 @@ export const ManagerOrders: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#212121] text-sm">
+            <thead className="bg-[#131313]">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Order / Invoice
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Customer
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Date
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Items
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Total
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Fulfillment
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#212121]">
               {filteredOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-semibold text-blue-600">{order.id}</div>
-                    <div className="text-xs text-gray-500">
+                <tr key={order.id} className="hover:bg-[#131313]">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="font-bold text-[#27c2d2]">{order.id}</div>
+                    <div className="text-xs text-[#b0b0b0]">
                       {order.invoiceNumber || 'INV-GENERATED'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-medium text-gray-900">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="font-bold text-white">
                       {order.customerName || 'Dr. Aris Thorne'}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-[#b0b0b0]">
                       {order.customerEmail || 'customer@example.com'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                  <td className="px-4 py-4 whitespace-nowrap text-[#b0b0b0]">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap text-white">
                     {order.items.length} item(s)
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap font-bold text-gray-900">
+                  <td className="px-4 py-4 whitespace-nowrap font-bold text-white">
                     ${order.totalAmount.toFixed(2)}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs">
-                    <span className="capitalize font-medium text-gray-800">
+                  <td className="px-4 py-4 whitespace-nowrap text-xs text-[#b0b0b0]">
+                    <span className="capitalize font-bold text-white">
                       {order.fulfillmentOption}
                     </span>{' '}
                     ({order.paymentMethod.toUpperCase()})
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <select
                       value={order.status}
                       onChange={(e) =>
                         handleStatusChange(order.id, e.target.value as Order['status'])
                       }
-                      className={`text-xs font-semibold rounded-full px-2.5 py-1 border cursor-pointer ${
+                      className={`text-xs font-bold rounded-full px-3 py-1 border cursor-pointer bg-[#000000] ${
                         order.status === 'completed' || order.status === 'delivered'
-                          ? 'bg-green-100 text-green-800 border-green-300'
+                          ? 'text-[#4dfd88] border-[#0f9b40]'
                           : order.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
-                          : order.status === 'in-transit'
-                          ? 'bg-blue-100 text-blue-800 border-blue-300'
-                          : order.status === 'cancelled'
-                          ? 'bg-red-100 text-red-800 border-red-300'
-                          : 'bg-purple-100 text-purple-800 border-purple-300'
+                          ? 'text-[#ff8da8] border-[#aa4266]'
+                          : 'text-[#27c2d2] border-[#0e97b0]'
                       }`}
                     >
                       <option value="pending">Pending</option>
@@ -155,10 +156,10 @@ export const ManagerOrders: React.FC = () => {
                       <option value="cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <button
                       onClick={() => setSelectedOrder(order)}
-                      className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
+                      className="text-[#27c2d2] hover:underline font-semibold inline-flex items-center"
                     >
                       <EyeIcon className="h-4 w-4 mr-1" /> Details
                     </button>
@@ -172,65 +173,67 @@ export const ManagerOrders: React.FC = () => {
 
       {/* Order Details Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full overflow-hidden">
-            <div className="flex justify-between items-center p-5 border-b border-gray-200 bg-gray-50">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[#090909] border border-[#212121] rounded-[32px] shadow-2xl max-w-2xl w-full overflow-hidden text-white">
+            <div className="flex justify-between items-center p-6 border-b border-[#212121] bg-[#131313]">
               <div>
-                <h2 className="text-lg font-bold text-gray-900">
+                <h2 className="text-lg font-bold text-white font-display">
                   Order Details — {selectedOrder.id}
                 </h2>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-[#b0b0b0]">
                   Invoice: {selectedOrder.invoiceNumber || 'N/A'} • Placed{' '}
                   {new Date(selectedOrder.createdAt).toLocaleString()}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-[#b0b0b0] hover:text-white"
               >
                 <XIcon className="h-5 w-5" />
               </button>
             </div>
 
             <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#131313] p-4 rounded-[20px] border border-[#212121] text-sm">
                 <div>
-                  <p className="text-xs text-gray-500 uppercase font-semibold">
+                  <p className="text-xs text-[#27c2d2] uppercase font-bold">
                     Customer Details
                   </p>
-                  <p className="font-semibold text-gray-900 mt-1">
+                  <p className="font-bold text-white mt-1">
                     {selectedOrder.customerName || 'Dr. Aris Thorne'}
                   </p>
-                  <p className="text-gray-600 text-xs">
+                  <p className="text-[#b0b0b0] text-xs">
                     {selectedOrder.customerEmail || 'customer@example.com'}
                   </p>
-                  <p className="text-gray-600 text-xs">
+                  <p className="text-[#b0b0b0] text-xs">
                     {selectedOrder.customerPhone || '555-345-6789'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase font-semibold">
+                  <p className="text-xs text-[#27c2d2] uppercase font-bold">
                     Fulfillment & Logistics
                   </p>
-                  <p className="font-medium text-gray-900 mt-1 capitalize">
-                    Method: {selectedOrder.fulfillmentOption} ({selectedOrder.paymentMethod.toUpperCase()})
+                  <p className="font-bold text-white mt-1 capitalize">
+                    Method: {selectedOrder.fulfillmentOption} (
+                    {selectedOrder.paymentMethod.toUpperCase()})
                   </p>
-                  <p className="text-gray-600 text-xs">
+                  <p className="text-[#b0b0b0] text-xs">
                     Driver: {selectedOrder.assignedDriver || 'Carlos Mendez'}
                   </p>
-                  <p className="text-gray-600 text-xs">
+                  <p className="text-[#b0b0b0] text-xs">
                     Tracking: {selectedOrder.trackingNumber || 'Local Pickup'}
                   </p>
                 </div>
                 <div className="sm:col-span-2">
-                  <p className="text-xs text-gray-500 uppercase font-semibold">
+                  <p className="text-xs text-[#27c2d2] uppercase font-bold">
                     Destination / Lab Address
                   </p>
-                  <p className="text-gray-800 text-xs mt-0.5">
-                    {selectedOrder.deliveryAddress || 'LISM Main Lab Facility Pickup Counter'}
+                  <p className="text-white text-xs mt-0.5">
+                    {selectedOrder.deliveryAddress ||
+                      'LISM Main Lab Facility Pickup Counter'}
                   </p>
                   {selectedOrder.notes && (
-                    <p className="text-amber-800 bg-amber-50 border border-amber-200 rounded px-2.5 py-1.5 text-xs mt-2">
+                    <p className="text-white bg-[#aa4266]/30 border border-[#aa4266] rounded-[12px] px-3 py-2 text-xs mt-2">
                       <strong>Handling Notes:</strong> {selectedOrder.notes}
                     </p>
                   )}
@@ -238,10 +241,10 @@ export const ManagerOrders: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="font-semibold text-sm text-gray-800 mb-2">
+                <h3 className="font-bold text-sm text-white mb-2">
                   Ordered Laboratory Items
                 </h3>
-                <div className="border border-gray-200 rounded-lg divide-y divide-gray-200">
+                <div className="border border-[#212121] rounded-[20px] divide-y divide-[#212121] bg-[#131313]">
                   {selectedOrder.items.map((orderItem, idx) => {
                     const catalogItem = items.find((i) => i.id === orderItem.itemId);
                     const itemName =
@@ -249,16 +252,16 @@ export const ManagerOrders: React.FC = () => {
                     return (
                       <div
                         key={idx}
-                        className="p-3 flex justify-between items-center text-sm"
+                        className="p-3.5 flex justify-between items-center text-sm"
                       >
                         <div>
-                          <p className="font-medium text-gray-900">{itemName}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="font-bold text-white">{itemName}</p>
+                          <p className="text-xs text-[#b0b0b0]">
                             {catalogItem?.sku || `ID-${orderItem.itemId}`} • Qty:{' '}
                             {orderItem.quantity} × ${orderItem.price.toFixed(2)}
                           </p>
                         </div>
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-bold text-white">
                           ${(orderItem.quantity * orderItem.price).toFixed(2)}
                         </p>
                       </div>
@@ -267,33 +270,35 @@ export const ManagerOrders: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center border-t border-gray-200 pt-4">
+              <div className="flex flex-wrap justify-between items-center border-t border-[#212121] pt-4 gap-4">
                 <div>
-                  <span className="text-xs text-gray-500 block">Quick Workflow Actions</span>
+                  <span className="text-xs text-[#b0b0b0] block">
+                    Quick Workflow Actions
+                  </span>
                   <div className="flex flex-wrap gap-2 mt-1.5">
                     <button
                       onClick={() => handleStatusChange(selectedOrder.id, 'processing')}
-                      className="px-3 py-1.5 bg-purple-600 text-white rounded text-xs font-medium hover:bg-purple-700"
+                      className="sp-btn-outline px-4 py-1.5 text-xs"
                     >
                       Approve & Process
                     </button>
                     <button
                       onClick={() => handleStatusChange(selectedOrder.id, 'in-transit')}
-                      className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 flex items-center"
+                      className="sp-btn-primary px-4 py-1.5 text-xs"
                     >
                       <TruckIcon className="h-3.5 w-3.5 mr-1" /> Dispatch Delivery
                     </button>
                     <button
                       onClick={() => handleStatusChange(selectedOrder.id, 'completed')}
-                      className="px-3 py-1.5 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700 flex items-center"
+                      className="px-4 py-1.5 bg-[#0f9b40] hover:bg-[#27b064] text-white rounded-[20px] text-xs font-bold flex items-center"
                     >
                       <CheckCircleIcon className="h-3.5 w-3.5 mr-1" /> Complete Order
                     </button>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-gray-500">Total Amount</p>
-                  <p className="text-2xl font-bold text-blue-900">
+                  <p className="text-xs text-[#b0b0b0]">Total Amount</p>
+                  <p className="text-2xl font-bold text-[#27c2d2] font-display">
                     ${selectedOrder.totalAmount.toFixed(2)}
                   </p>
                 </div>

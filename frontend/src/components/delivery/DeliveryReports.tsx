@@ -44,129 +44,140 @@ export const DeliveryReports: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
+            Fleet Performance Telemetry
+          </span>
+          <h1 className="sp-type-headline-lg text-3xl sm:text-[46px] text-white mt-1">
             Delivery & Fleet Logistics Reports
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#b0b0b0] mt-1">
             Review completed laboratory dispatches, active transit manifests, and export fleet logs
           </p>
         </div>
         <button
           onClick={exportDeliveryCSV}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex items-center text-sm font-medium"
+          className="sp-btn-primary h-[50px] px-7 text-sm"
         >
           <DownloadIcon className="h-4 w-4 mr-1.5" /> Export Logistics CSV
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="sp-card-dark p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Completed Deliveries</p>
-              <p className="text-2xl font-bold text-green-600">
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Completed Deliveries
+              </p>
+              <p className="text-3xl font-bold text-[#4dfd88] mt-1 font-display">
                 {completedDeliveries.length}
               </p>
             </div>
-            <div className="p-3 bg-green-100 rounded-full">
-              <CheckCircleIcon className="h-6 w-6 text-green-600" />
+            <div className="h-14 w-14 rounded-full bg-[#0f9b40] text-white flex items-center justify-center shadow-lg">
+              <CheckCircleIcon className="h-6 w-6" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-dark p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Currently In Transit</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-xs uppercase tracking-wider text-[#b0b0b0]">
+                Currently In Transit
+              </p>
+              <p className="text-3xl font-bold text-[#27c2d2] mt-1 font-display">
                 {inTransit.length}
               </p>
             </div>
-            <div className="p-3 bg-blue-100 rounded-full">
-              <TruckIcon className="h-6 w-6 text-blue-600" />
+            <div className="h-14 w-14 rounded-full bg-[#27c2d2] text-black flex items-center justify-center shadow-lg">
+              <TruckIcon className="h-6 w-6" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="sp-card-crimson p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Awaiting Dispatch</p>
-              <p className="text-2xl font-bold text-amber-600">
+              <p className="text-xs uppercase tracking-wider text-white/80">
+                Awaiting Dispatch
+              </p>
+              <p className="text-3xl font-bold text-white mt-1 font-display">
                 {pending.length}
               </p>
             </div>
-            <div className="p-3 bg-amber-100 rounded-full">
-              <ClockIcon className="h-6 w-6 text-amber-600" />
+            <div className="h-14 w-14 rounded-full bg-black/30 text-white flex items-center justify-center">
+              <ClockIcon className="h-6 w-6" />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-lg font-semibold mb-4">Complete Fleet Dispatch Log</h2>
+      <div className="sp-card-dark p-6 sm:p-8">
+        <h2 className="text-xl font-bold text-white mb-6 font-display">
+          Complete Fleet Dispatch Log
+        </h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#212121] text-sm">
+            <thead className="bg-[#131313]">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Order & Tracking
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Recipient
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Destination Address
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Driver
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Items
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-[#b0b0b0] uppercase">
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#212121]">
               {deliveryOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-semibold text-blue-600">{order.id}</div>
-                    <div className="text-xs font-mono text-gray-500">
+                <tr key={order.id} className="hover:bg-[#131313]">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="font-bold text-[#27c2d2]">{order.id}</div>
+                    <div className="text-xs font-mono text-[#b0b0b0]">
                       {order.trackingNumber || 'TRK-LOCAL'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-medium text-gray-900">
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="font-bold text-white">
                       {order.customerName || 'Dr. Aris Thorne'}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-[#b0b0b0]">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-xs text-gray-600 max-w-xs">
+                  <td className="px-4 py-4 text-xs text-[#b0b0b0] max-w-xs">
                     {order.deliveryAddress}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-800">
+                  <td className="px-4 py-4 whitespace-nowrap text-xs font-bold text-white">
                     {order.assignedDriver || 'Carlos Mendez'}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs">
+                  <td className="px-4 py-4 whitespace-nowrap text-xs text-white">
                     {order.items.length} items (${order.totalAmount.toFixed(2)})
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-4 whitespace-nowrap">
                     <span
-                      className={`px-2.5 py-0.5 text-xs font-semibold rounded-full capitalize ${
+                      className={`px-3 py-1 text-xs font-bold rounded-full capitalize ${
                         order.status === 'completed' ||
                         order.status === 'delivered'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-[#0f9b40]/30 text-[#4dfd88]'
                           : order.status === 'in-transit'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-yellow-100 text-yellow-800'
+                          ? 'bg-[#0e97b0]/30 text-[#27c2d2]'
+                          : 'bg-[#aa4266] text-white'
                       }`}
                     >
                       {order.status.replace('-', ' ')}
