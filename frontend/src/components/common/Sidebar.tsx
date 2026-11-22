@@ -11,7 +11,9 @@ import {
   SettingsIcon,
   BarChartIcon,
   MessageSquareIcon,
-  ActivityIcon
+  ActivityIcon,
+  EditIcon,
+  GlobeIcon
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -37,6 +39,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
       case 'admin':
         return [
           {
+            icon: <GlobeIcon size={18} />,
+            label: 'Role Home Page',
+            path: '/'
+          },
+          {
             icon: <HomeIcon size={18} />,
             label: 'Dashboard',
             path: '/admin'
@@ -60,6 +67,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
 
       case 'manager':
         return [
+          {
+            icon: <GlobeIcon size={18} />,
+            label: 'Role Home Page',
+            path: '/'
+          },
           {
             icon: <HomeIcon size={18} />,
             label: 'Dashboard',
@@ -101,15 +113,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
       case 'customer':
         return [
           {
+            icon: <GlobeIcon size={18} />,
+            label: 'Role Home Page',
+            path: '/'
+          },
+          {
             icon: <HomeIcon size={18} />,
-            label: 'Overview & Hero',
+            label: 'Customer Dashboard',
             path: '/customer'
           },
           {
             icon: <ShoppingCartIcon size={18} />,
-            label: 'Lab Catalog',
-            path: '/customer/shop',
-            badge: cartItemsCount > 0 ? `${cartItemsCount} in cart` : undefined,
+            label: 'Lab Catalog Shop',
+            path: '/customer/shop'
+          },
+          {
+            icon: <EditIcon size={18} />,
+            label: 'Edit Cart',
+            path: '/customer/edit-cart',
+            badge: cartItemsCount > 0 ? `${cartItemsCount} items` : undefined,
             badgeColor: 'bg-[#0e97b0]'
           },
           {
@@ -126,6 +148,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
 
       case 'inventory':
         return [
+          {
+            icon: <GlobeIcon size={18} />,
+            label: 'Role Home Page',
+            path: '/'
+          },
           {
             icon: <HomeIcon size={18} />,
             label: 'Vault Dashboard',
@@ -147,6 +174,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
 
       case 'delivery':
         return [
+          {
+            icon: <GlobeIcon size={18} />,
+            label: 'Role Home Page',
+            path: '/'
+          },
           {
             icon: <HomeIcon size={18} />,
             label: 'Fleet Dashboard',
@@ -178,17 +210,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentRole }) => {
   };
 
   return (
-    <aside className="bg-[#090909] text-white w-64 flex-shrink-0 border-r border-[#212121] hidden md:flex flex-col justify-between">
+    <aside className="bg-[#090909] text-white w-64 flex-shrink-0 border-r border-[#212121] flex flex-col justify-between">
       <div>
         <div className="p-5 border-b border-[#212121]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-widest text-[#27c2d2]">
-              {currentRole} module
+              {currentRole} portal
             </span>
             <span className="h-2.5 w-2.5 rounded-full bg-[#4dfd88] animate-pulse" title="Real-Time Telemetry Active" />
           </div>
           <h2 className="text-lg font-bold tracking-tight text-white mt-1 font-display">
-            {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} Control
+            {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} Navigation
           </h2>
           <p className="text-xs text-[#b0b0b0] mt-0.5">
             GMP Annex 1 • ISO-9001 • 21 CFR

@@ -6,14 +6,24 @@ import {
   ShoppingCartIcon,
   CheckIcon,
   ChevronDownIcon,
-  ShieldAlertIcon
+  ShieldAlertIcon,
+  LayoutDashboardIcon
 } from 'lucide-react';
 
 interface HeaderProps {
   currentRole?: string;
+  isAuthenticated?: boolean;
+  showSidebar?: boolean;
+  onLogoClick?: () => void;
+  onOpenPortalDashboard?: (role: string, targetPath?: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
+export const Header: React.FC<HeaderProps> = ({
+  currentRole = 'customer',
+  isAuthenticated = false,
+  onLogoClick,
+  onOpenPortalDashboard
+}) => {
   const {
     notifications,
     markNotificationAsRead,
@@ -28,6 +38,8 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isHomePage = location.pathname === '/' || location.pathname === '/home';
+
   const roleNotifications = notifications.filter((n) =>
     n.forRole.includes(currentRole)
   );
@@ -38,17 +50,28 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
     users.find((u) => u.role === currentRole) || users[0];
 
   const getHeaderNavItems = () => {
+    if (isHomePage && !isAuthenticated) {
+      return [
+        { label: 'Home', path: '/' },
+        { label: 'Environmental monitoring', path: '/#role-login-section' },
+        { label: 'Quality control', path: '/#role-login-section' },
+        { label: 'R&D', path: '/#role-login-section' }
+      ];
+    }
+
     switch (currentRole) {
       case 'admin':
         return [
-          { label: 'Home', path: '/admin' },
+          { label: 'Home', path: '/' },
+          { label: 'Dashboard', path: '/admin' },
           { label: 'User Management', path: '/admin/users' },
           { label: 'System Config', path: '/admin/config' },
           { label: 'Audit Trails', path: '/admin/audit' }
         ];
       case 'manager':
         return [
-          { label: 'Home', path: '/manager' },
+          { label: 'Home', path: '/' },
+          { label: 'Dashboard', path: '/manager' },
           { label: 'Item Availability', path: '/manager/items' },
           { label: 'Orders', path: '/manager/orders' },
           { label: 'Invoices', path: '/manager/invoices' },
@@ -57,25 +80,29 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
         ];
       case 'customer':
         return [
-          { label: 'Home', path: '/customer' },
-          { label: 'Environmental & Lab Shop', path: '/customer/shop' },
-          { label: 'My Orders & QC', path: '/customer/orders' },
+          { label: 'Home', path: '/' },
+          { label: 'Dashboard', path: '/customer' },
+          { label: 'Lab Shop', path: '/customer/shop' },
+          { label: 'Edit Cart', path: '/customer/edit-cart' },
+          { label: 'My Orders', path: '/customer/orders' },
           { label: 'R&D Support', path: '/customer/support' }
         ];
       case 'inventory':
         return [
-          { label: 'Home', path: '/inventory' },
+          { label: 'Home', path: '/' },
+          { label: 'Dashboard', path: '/inventory' },
           { label: 'Batch & Stock Vault', path: '/inventory/manage' },
           { label: 'Stock Reports', path: '/inventory/reports' }
         ];
       case 'delivery':
         return [
-          { label: 'Home', path: '/delivery' },
+          { label: 'Home', path: '/' },
+          { label: 'Dashboard', path: '/delivery' },
           { label: 'Hazmat Dispatch', path: '/delivery/manage' },
           { label: 'Logistics Reports', path: '/delivery/reports' }
         ];
       default:
-        return [{ label: 'Home', path: '/customer' }];
+        return [{ label: 'Home', path: '/' }];
     }
   };
 
@@ -88,32 +115,33 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
   ];
 
   const handlePrimaryCta = () => {
-    if (currentRole === 'customer') {
-      navigate('/customer');
-      setTimeout(() => {
-        document.getElementById('edit-cart-section')?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else if (currentRole === 'manager') navigate('/manager/orders');
-    else if (currentRole === 'inventory') navigate('/inventory/manage');
-    else if (currentRole === 'delivery') navigate('/delivery/manage');
-    else navigate('/admin/users');
+    if (isHomePage && !isAuthenticated) {
+      document.getElementById('role-login-section')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (onOpenPortalDashboard) {
+      onOpenPortalDashboard(currentRole);
+    } else {
+      navigate(`/${currentRole}`);
+    }
   };
 
   const getPrimaryCtaLabel = () => {
-    if (currentRole === 'customer') return cartCount > 0 ? `Edit Cart (${cartCount})` : 'Book your order';
-    if (currentRole === 'manager') return 'Process orders';
-    if (currentRole === 'inventory') return 'Manage batches';
-    if (currentRole === 'delivery') return 'Dispatch queue';
-    return 'Manage users';
+    if (isHomePage && !isAuthenticated) return 'Book your session';
+    return 'Dashboard';
   };
 
   return (
     <header className="sp-header-gradient sticky top-0 z-50 h-20 md:h-24 px-4 md:px-10 shadow-lg transition-all">
       <div className="max-w-[1440px] mx-auto h-full flex justify-between items-center gap-4">
-        {/* Left: ScanStation-inspired Molecular Dot Brand Lockup */}
+        {/* Left: ScanStation-inspired Molecular Dot Brand Lockup — Always Navigates to Home Page ("/") */}
         <Link
-          to={`/${currentRole}`}
+          to="/"
+          onClick={() => {
+            if (onLogoClick) onLogoClick();
+          }}
           className="flex items-center space-x-3 group focus:outline-none"
+          title="Navigate to LISMStation Home Page"
         >
           <svg
             width="48"
@@ -123,7 +151,6 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
             xmlns="http://www.w3.org/2000/svg"
             className="flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
           >
-            {/* Molecular Petri-dish dot cluster matching brand-logo.png */}
             <ellipse cx="14" cy="24" rx="5.5" ry="3.2" fill="#ffffff" />
             <ellipse cx="22" cy="18" rx="4" ry="2.4" fill="#ffffff" opacity="0.9" />
             <ellipse cx="11" cy="32" rx="7" ry="4" fill="#ffffff" />
@@ -148,19 +175,26 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
           </div>
         </Link>
 
-        {/* Center: Navigation Links (myscanstation.com .button-outline-sm & .nav-link-plain) */}
+        {/* Center: Navigation Links */}
         <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
           {getHeaderNavItems().map((item, idx) => {
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={idx}
-                to={item.path}
-                className={
-                  isActive
-                    ? 'sp-nav-pill-active'
-                    : 'sp-nav-link'
-                }
+                to={item.path.startsWith('/#') ? '/' : item.path}
+                onClick={() => {
+                  if (item.path === '/') {
+                    if (onLogoClick) onLogoClick();
+                  } else if (item.path.startsWith('/#')) {
+                    document
+                      .getElementById('role-login-section')
+                      ?.scrollIntoView({ behavior: 'smooth' });
+                  } else if (onOpenPortalDashboard) {
+                    onOpenPortalDashboard(currentRole, item.path);
+                  }
+                }}
+                className={isActive ? 'sp-nav-pill-active' : 'sp-nav-link'}
               >
                 {item.label}
               </Link>
@@ -168,9 +202,8 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
           })}
         </nav>
 
-        {/* Right: Role Switcher (.language-switch), Cart, Notifications & Black Ink CTA (.button-ink) */}
+        {/* Right: Role Switcher, Cart, Notifications & Black Ink CTA */}
         <div className="flex items-center space-x-3 md:space-x-4">
-          {/* Role / Portal Switcher styled after myscanstation Language Switch */}
           <div className="relative">
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
@@ -190,7 +223,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
                     key={r.id}
                     onClick={() => {
                       setCurrentRole(r.id);
-                      navigate(`/${r.id}`);
+                      if (!isHomePage && onOpenPortalDashboard) {
+                        onOpenPortalDashboard(r.id);
+                      }
                       setShowRoleMenu(false);
                     }}
                     className={`w-full text-left px-4 py-2 text-sm transition-colors flex items-center justify-between ${
@@ -209,12 +244,18 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
             )}
           </div>
 
-          {/* Quick Cart Button for Customer */}
+          {/* Quick Edit Cart Button for Customer */}
           {currentRole === 'customer' && (
             <button
-              onClick={() => navigate('/customer/shop')}
+              onClick={() => {
+                if (onOpenPortalDashboard) {
+                  onOpenPortalDashboard('customer', '/customer/edit-cart');
+                } else {
+                  navigate('/customer/edit-cart');
+                }
+              }}
               className="relative h-11 w-11 rounded-full border border-white/40 bg-black/20 text-white hover:bg-black hover:border-black transition-all flex items-center justify-center"
-              title="View Shopping Cart"
+              title="Open Edit Cart in Customer Portal"
             >
               <ShoppingCartIcon className="h-5 w-5" />
               {cartCount > 0 && (
@@ -304,11 +345,12 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
             )}
           </div>
 
-          {/* Signature Black Ink Header Button (.button-ink from components.css) */}
+          {/* Signature Black Ink Header Button (.button-ink) */}
           <button
             onClick={handlePrimaryCta}
             className="hidden sm:inline-flex sp-btn-ink h-[50px] px-7 text-[16px]"
           >
+            {isAuthenticated && <LayoutDashboardIcon className="h-4 w-4 mr-1.5 text-[#27c2d2]" />}
             {getPrimaryCtaLabel()}
           </button>
         </div>
