@@ -88,15 +88,19 @@ export const Header: React.FC<HeaderProps> = ({ currentRole = 'customer' }) => {
   ];
 
   const handlePrimaryCta = () => {
-    if (currentRole === 'customer') navigate('/customer/shop');
-    else if (currentRole === 'manager') navigate('/manager/orders');
+    if (currentRole === 'customer') {
+      navigate('/customer');
+      setTimeout(() => {
+        document.getElementById('edit-cart-section')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else if (currentRole === 'manager') navigate('/manager/orders');
     else if (currentRole === 'inventory') navigate('/inventory/manage');
     else if (currentRole === 'delivery') navigate('/delivery/manage');
     else navigate('/admin/users');
   };
 
   const getPrimaryCtaLabel = () => {
-    if (currentRole === 'customer') return cartCount > 0 ? `Checkout (${cartCount})` : 'Book your order';
+    if (currentRole === 'customer') return cartCount > 0 ? `Edit Cart (${cartCount})` : 'Book your order';
     if (currentRole === 'manager') return 'Process orders';
     if (currentRole === 'inventory') return 'Manage batches';
     if (currentRole === 'delivery') return 'Dispatch queue';

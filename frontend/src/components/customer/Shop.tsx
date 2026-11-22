@@ -8,16 +8,30 @@ import {
   ShieldAlertIcon,
   InfoIcon,
   XIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  PlusIcon,
+  MinusIcon,
+  TrashIcon,
+  EditIcon
 } from 'lucide-react';
 
 export const Shop: React.FC = () => {
-  const { items, cart, addToCart, checkoutCart, systemConfig } = useAppContext();
+  const {
+    items,
+    cart,
+    addToCart,
+    updateCartQuantity,
+    removeFromCart,
+    clearCart,
+    checkoutCart,
+    systemConfig
+  } = useAppContext();
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
   const [selectedItemSpec, setSelectedItemSpec] = useState<Item | null>(null);
+  const [showEditCartDrawer, setShowEditCartDrawer] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [checkoutData, setCheckoutData] = useState({
     paymentMethod: 'online' as 'online' | 'cod',
@@ -47,6 +61,7 @@ export const Shop: React.FC = () => {
     const order = checkoutCart(checkoutData);
     if (order) {
       setShowCheckoutModal(false);
+      setShowEditCartDrawer(false);
       navigate('/customer/orders');
     }
   };
@@ -66,13 +81,16 @@ export const Shop: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="bg-[#131313] border border-[#212121] px-4 py-2.5 rounded-[20px] flex items-center gap-2.5">
-            <ShoppingCartIcon className="h-5 w-5 text-[#27c2d2]" />
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => setShowEditCartDrawer(!showEditCartDrawer)}
+            className="bg-[#131313] hover:bg-[#1f1f1f] border border-[#0e97b0] px-4 py-2.5 rounded-[20px] flex items-center gap-2.5 transition-colors"
+          >
+            <EditIcon className="h-4 w-4 text-[#27c2d2]" />
             <span className="text-sm font-bold text-white">
-              {cartCount} items (${cartSubtotal.toFixed(2)})
+              Edit Cart ({cartCount} items • ${cartSubtotal.toFixed(2)})
             </span>
-          </div>
+          </button>
           {cartCount > 0 && (
             <button
               onClick={() => setShowCheckoutModal(true)}
@@ -83,6 +101,118 @@ export const Shop: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Expandable Edit Cart Section inside Shop */}
+      {showEditCartDrawer && (
+        <div className="sp-card-elevated-light p-6 sm:p-8 border-2 border-[#0e97b0]">
+          <div className="flex flex-wrap justify-between items-center gap-4 pb-4 mb-5 border-b border-black/15">
+            <div className="flex items-center space-x-3">
+              <ShoppingCartIcon className="h-6 w-6 text-[#0e4e65]" />
+              <h2 className="text-xl font-bold text-[#111111] font-display">
+                Edit Cart Items ({cartCount} units)
+              </h2>
+            </div>
+            <div className="flex items-center gap-3">
+              {cart.length > 0 && (
+                <button
+                  onClick={clearCart}
+                  className="px-3.5 py-1.5 rounded-full bg-[#aa4266] text-white text-xs font-bold flex items-center"
+                >
+                  <TrashIcon className="h-3.5 w-3.5 mr-1" /> Clear All
+                </button>
+              )}
+              <button
+                onClick={() => setShowEditCartDrawer(false)}
+                className="text-xs font-bold text-[#3d3d3d] hover:text-black"
+              >
+                Hide Editor ✕
+              </button>
+            </div>
+          </div>
+
+          {cart.length > 0 ? (
+            <div className="space-y-3">
+              {cart.map((cartItem) => {
+                const item = items.find((i) => i.id === cartItem.itemId);
+                if (!item) return null;
+                return (
+                  <div
+                    key={cartItem.itemId}
+                    className="bg-white p-4 rounded-[20px] flex flex-wrap justify-between items-center gap-4 border border-black/10"
+                  >
+                    <div>
+                      <span className="text-[10px] font-bold text-[#0e97b0] uppercase">
+                        {item.sku}
+                      </span>
+                      <p className="font-bold text-sm text-[#111111]">{item.name}</p>
+                      <p className="text-xs text-[#3d3d3d]">
+                        ${item.price.toFixed(2)} / {item.unit} (Max stock: {item.stock})
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-1.5 bg-gray-100 p-1 rounded-full border border-black/15">
+                        <button
+                          onClick={() =>
+                            updateCartQuantity(item.id, cartItem.quantity - 1)
+                          }
+                          className="h-7 w-7 rounded-full bg-white hover:bg-black hover:text-white text-[#111111] flex items-center justify-center"
+                        >
+                          <MinusIcon className="h-3 w-3" />
+                        </button>
+                        <input
+                          type="number"
+                          min={1}
+                          max={item.stock}
+                          value={cartItem.quantity}
+                          onChange={(e) =>
+                            updateCartQuantity(
+                              item.id,
+                              parseInt(e.target.value) || 1
+                            )
+                          }
+                          className="w-12 text-center bg-transparent font-bold text-sm text-[#111111]"
+                        />
+                        <button
+                          onClick={() =>
+                            updateCartQuantity(item.id, cartItem.quantity + 1)
+                          }
+                          className="h-7 w-7 rounded-full bg-white hover:bg-black hover:text-white text-[#111111] flex items-center justify-center"
+                        >
+                          <PlusIcon className="h-3 w-3" />
+                        </button>
+                      </div>
+                      <span className="font-bold text-sm text-[#111111] w-20 text-right">
+                        ${(cartItem.quantity * item.price).toFixed(2)}
+                      </span>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="p-1.5 text-[#aa4266] hover:bg-[#aa4266] hover:text-white rounded-full transition-colors"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="flex flex-wrap justify-between items-center pt-4 border-t border-black/15">
+                <div className="text-sm font-bold text-[#111111]">
+                  Subtotal: ${cartSubtotal.toFixed(2)} + Est. Tax ({systemConfig.taxRate}%)
+                </div>
+                <button
+                  onClick={() => setShowCheckoutModal(true)}
+                  className="sp-btn-ink px-7 py-2.5 text-sm"
+                >
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-[#3d3d3d] text-center py-4">
+              Your cart is empty. Click "Add to Cart" on any item below.
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Filters (Sharp 0px inputs per tokens.css) */}
       <div className="flex flex-wrap gap-4 bg-[#090909] p-4 rounded-[24px] border border-[#212121]">
@@ -109,106 +239,132 @@ export const Shop: React.FC = () => {
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredItems.map((item) => (
-          <div
-            key={item.id}
-            className="bg-[#090909] border border-[#212121] rounded-[32px] overflow-hidden hover:border-[#0e97b0] transition-all duration-300 flex flex-col justify-between group shadow-xl"
-          >
-            <div>
-              {/* 0px radius media container per tokens.css */}
-              <div className="h-48 bg-[#000000] flex items-center justify-center relative overflow-hidden">
-                {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <PackageIcon className="h-16 w-16 text-[#5d5d5d]" />
-                )}
-                {item.hazardLevel && item.hazardLevel !== 'None' && (
-                  <span className="absolute top-3 right-3 bg-[#aa4266] text-white text-xs font-bold px-3 py-1 rounded-[10px] shadow-md flex items-center">
-                    <ShieldAlertIcon className="h-3.5 w-3.5 mr-1" />
-                    {item.hazardLevel}
-                  </span>
-                )}
-              </div>
-              <div className="p-5">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[11px] font-bold text-[#27c2d2] uppercase tracking-wider">
-                    {item.sku}
-                  </span>
-                  <span className="text-[11px] text-[#b0b0b0]">{item.category}</span>
-                </div>
-                <h3 className="font-bold text-white text-base mb-1 line-clamp-1 font-display">
-                  {item.name}
-                </h3>
-                <p className="text-xs text-[#b0b0b0] mb-4 line-clamp-2">
-                  {item.description}
-                </p>
-
-                <div className="text-xs bg-[#131313] p-3 rounded-[16px] border border-[#212121] space-y-1.5 mb-4">
-                  <div className="flex justify-between">
-                    <span className="text-[#b0b0b0]">Manufacturer:</span>
-                    <span className="font-semibold text-white">
-                      {item.manufacturer}
-                    </span>
-                  </div>
-                  {item.type === 'chemical' ? (
-                    <div className="flex justify-between">
-                      <span className="text-[#b0b0b0]">CAS / Grade:</span>
-                      <span className="font-semibold text-[#27c2d2]">
-                        {item.casNumber}
-                      </span>
-                    </div>
+        {filteredItems.map((item) => {
+          const inCartItem = cart.find((c) => c.itemId === item.id);
+          return (
+            <div
+              key={item.id}
+              className="bg-[#090909] border border-[#212121] rounded-[32px] overflow-hidden hover:border-[#0e97b0] transition-all duration-300 flex flex-col justify-between group shadow-xl"
+            >
+              <div>
+                <div className="h-48 bg-[#000000] flex items-center justify-center relative overflow-hidden">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   ) : (
-                    <div className="flex justify-between">
-                      <span className="text-[#b0b0b0]">Model / Warranty:</span>
-                      <span className="font-semibold text-[#27c2d2]">
-                        {item.modelNumber} ({item.warrantyMonths}m)
-                      </span>
-                    </div>
+                    <PackageIcon className="h-16 w-16 text-[#5d5d5d]" />
+                  )}
+                  {item.hazardLevel && item.hazardLevel !== 'None' && (
+                    <span className="absolute top-3 right-3 bg-[#aa4266] text-white text-xs font-bold px-3 py-1 rounded-[10px] shadow-md flex items-center">
+                      <ShieldAlertIcon className="h-3.5 w-3.5 mr-1" />
+                      {item.hazardLevel}
+                    </span>
                   )}
                 </div>
-
-                <div className="flex justify-between items-center mb-2">
-                  <div>
-                    <span className="text-xl font-bold text-white">
-                      ${item.price.toFixed(2)}
+                <div className="p-5">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-[11px] font-bold text-[#27c2d2] uppercase tracking-wider">
+                      {item.sku}
                     </span>
-                    <span className="text-xs text-[#b0b0b0]"> / {item.unit}</span>
+                    <span className="text-[11px] text-[#b0b0b0]">{item.category}</span>
                   </div>
-                  <span
-                    className={`text-xs px-2.5 py-1 rounded-full font-bold ${
-                      item.stock > item.lowStockThreshold
-                        ? 'bg-[#0f9b40]/25 text-[#4dfd88] border border-[#0f9b40]'
-                        : 'bg-[#aa4266] text-white'
-                    }`}
-                  >
-                    {item.stock > 0 ? `${item.stock} in stock` : 'Out of stock'}
-                  </span>
+                  <h3 className="font-bold text-white text-base mb-1 line-clamp-1 font-display">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-[#b0b0b0] mb-4 line-clamp-2">
+                    {item.description}
+                  </p>
+
+                  <div className="text-xs bg-[#131313] p-3 rounded-[16px] border border-[#212121] space-y-1.5 mb-4">
+                    <div className="flex justify-between">
+                      <span className="text-[#b0b0b0]">Manufacturer:</span>
+                      <span className="font-semibold text-white">
+                        {item.manufacturer}
+                      </span>
+                    </div>
+                    {item.type === 'chemical' ? (
+                      <div className="flex justify-between">
+                        <span className="text-[#b0b0b0]">CAS / Grade:</span>
+                        <span className="font-semibold text-[#27c2d2]">
+                          {item.casNumber}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between">
+                        <span className="text-[#b0b0b0]">Model / Warranty:</span>
+                        <span className="font-semibold text-[#27c2d2]">
+                          {item.modelNumber} ({item.warrantyMonths}m)
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex justify-between items-center mb-2">
+                    <div>
+                      <span className="text-xl font-bold text-white">
+                        ${item.price.toFixed(2)}
+                      </span>
+                      <span className="text-xs text-[#b0b0b0]"> / {item.unit}</span>
+                    </div>
+                    <span
+                      className={`text-xs px-2.5 py-1 rounded-full font-bold ${
+                        item.stock > item.lowStockThreshold
+                          ? 'bg-[#0f9b40]/25 text-[#4dfd88] border border-[#0f9b40]'
+                          : 'bg-[#aa4266] text-white'
+                      }`}
+                    >
+                      {item.stock > 0 ? `${item.stock} in stock` : 'Out of stock'}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="p-5 pt-0 flex gap-2.5">
-              <button
-                onClick={() => setSelectedItemSpec(item)}
-                className="sp-btn-outline px-3.5 py-2.5 text-xs"
-                title="View Technical Specifications"
-              >
-                <InfoIcon className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => addToCart(item.id, 1)}
-                disabled={item.stock <= 0}
-                className="sp-btn-primary flex-1 py-2.5 px-4 text-sm"
-              >
-                Add to Cart
-              </button>
+              <div className="p-5 pt-0 flex gap-2.5">
+                <button
+                  onClick={() => setSelectedItemSpec(item)}
+                  className="sp-btn-outline px-3.5 py-2.5 text-xs"
+                  title="View Technical Specifications"
+                >
+                  <InfoIcon className="h-4 w-4" />
+                </button>
+                {inCartItem ? (
+                  <div className="flex-1 flex items-center justify-between bg-[#131313] border border-[#0e97b0] rounded-[20px] px-2.5 py-1">
+                    <button
+                      onClick={() =>
+                        updateCartQuantity(item.id, inCartItem.quantity - 1)
+                      }
+                      className="h-7 w-7 rounded-full bg-black text-white hover:bg-[#aa4266] flex items-center justify-center"
+                    >
+                      <MinusIcon className="h-3 w-3" />
+                    </button>
+                    <span className="text-xs font-bold text-[#27c2d2]">
+                      {inCartItem.quantity} in cart
+                    </span>
+                    <button
+                      onClick={() =>
+                        updateCartQuantity(item.id, inCartItem.quantity + 1)
+                      }
+                      className="h-7 w-7 rounded-full bg-black text-white hover:bg-[#0e97b0] flex items-center justify-center"
+                    >
+                      <PlusIcon className="h-3 w-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => addToCart(item.id, 1)}
+                    disabled={item.stock <= 0}
+                    className="sp-btn-primary flex-1 py-2.5 px-4 text-sm"
+                  >
+                    Add to Cart
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Technical Specs Modal */}
